@@ -1,0 +1,94 @@
+{
+    "name": "laravel/laravel",
+    "type": "project",
+    "description": "The Laravel Framework.",
+    "keywords": [
+        "framework",
+        "laravel"
+    ],
+    "license": "MIT",
+    "require": {
+        "php": "^7.3",
+        "ext-gd": "*",
+        "ext-igbinary": "*",
+        "ext-intl": "*",
+        "ext-json": "*",
+        "ext-pcntl": "*",
+        "ext-redis": "*",
+        "bensampo/laravel-enum": "^1.26",
+        "fideloper/proxy": "^4.0",
+        "florianv/laravel-swap": "^2.1",
+        "ia-ghc/nova-green-theme": "*",
+        "inertiajs/inertia-laravel": "^0.1",
+        "lab404/laravel-impersonate": "^1.4",
+        "laravel/framework": "^6.2",
+        "laravel/nova": "^2.5",
+        "laravel/tinker": "^1.0",
+        "nyholm/psr7": "^1.2",
+        "php-http/curl-client": "^2.0",
+        "php-http/message": "^1.8",
+        "shipping-docker/vessel": "^4.1",
+        "spatie/laravel-event-sourcing": "^1.0",
+        "spatie/laravel-permission": "^3.2",
+        "vyuldashev/nova-permission": "^2.1"
+    },
+    "require-dev": {
+        "facade/ignition": "^1.4",
+        "fzaninotto/faker": "^1.4",
+        "laravel-frontend-presets/inertiajs": "^0.3.0",
+        "mockery/mockery": "^1.0",
+        "nunomaduro/collision": "^3.0",
+        "phpunit/phpunit": "^8.0"
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://nova.laravel.com"
+        },
+        {
+            "type": "path",
+            "url": "./nova-components/NovaGreenTheme"
+        }
+    ],
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "dont-discover": []
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        },
+        "classmap": [
+            "database/seeds",
+            "database/factories"
+        ],
+        "files": [
+            "app/helpers.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "scripts": {
+        "post-autoload-dump": [
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+            "@php artisan package:discover --ansi"
+        ],
+        "post-root-package-install": [
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+        ],
+        "post-create-project-cmd": [
+            "@php artisan key:generate --ansi"
+        ]
+    }
+}
