@@ -28,18 +28,17 @@ services:
     networks:
      - vessel
   mysql:
-    image: mysql:5.7
+    image: mysql:8
     ports:
-     - "${MYSQL_PORT}:3306"
+     - "${DB_PORT}:3306"
     environment:
       MYSQL_ROOT_PASSWORD: "${DB_PASSWORD}"
       MYSQL_DATABASE: "${DB_DATABASE}"
       MYSQL_USER: "${DB_USERNAME}"
       MYSQL_PASSWORD: "${DB_PASSWORD}"
     volumes:
-     - vesselmysql:/var/lib/mysql
-     # - ./docker/mysql/conf.d:/etc/mysql/conf.d
-     # - ./docker/mysql/logs:/var/log/mysql
+     - ./docker/mysql/conf.d:/etc/mysql/conf.d
+     - ./docker/mysql/logs:/var/log/mysql
     networks:
      - vessel
   redis:
@@ -52,7 +51,5 @@ networks:
   vessel:
     driver: "bridge"
 volumes:
-  vesselmysql:
-    driver: "local"
   vesselredis:
     driver: "local"
