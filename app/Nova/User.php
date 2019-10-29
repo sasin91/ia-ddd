@@ -4,6 +4,8 @@ namespace App\Nova;
 
 use Laravel\Nova\Fields\Avatar;
 use Laravel\Nova\Fields\Country;
+use Laravel\Nova\Fields\DateTime;
+use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\MorphToMany;
@@ -16,11 +18,18 @@ use Vyuldashev\NovaPermission\Role;
 class User extends Resource
 {
     /**
+     * The logical group associated with the resource.
+     *
+     * @var string
+     */
+    public static $group = 'Auth';
+
+    /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = 'App\\User';
+    public static $model = \App\User::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -37,6 +46,19 @@ class User extends Resource
     public static $search = [
         'id', 'name', 'email', 'country'
     ];
+
+    /**
+     * Create a new resource instance.
+     *
+     * @param  \App\User  $resource
+     * @return void
+     */
+    public function __construct($resource)
+    {
+        parent::__construct(
+            $resource->withLastLogin()
+        );
+    }
 
     /**
      * Get the fields displayed by the resource.
@@ -74,8 +96,18 @@ class User extends Resource
                 ->creationRules('required', 'string', 'min:8')
                 ->updateRules('nullable', 'string', 'min:8'),
 
+            DateTime::make('last_login'),
+
             MorphToMany::make('Roles', 'roles', Role::class),
             MorphToMany::make('Permissions', 'permissions', Permission::class),
+
+            HasMany::make('Bookings')->onlyOnDetail(),
+            HasMany::make('requestedChanges')->onlyOnDetail(),
+            HasMany::make('handledChanges')->onlyOnDetail(),
+            HasMany::make('Passengers')->onlyOnDetail(),
+            HasMany::make('Agencies')->onlyOnDetail(),
+            HasMany::make('Accounts')->onlyOnDetail(),
+            HasMany::make('Logins')->onlyOnDetail(),
         ];
     }
 

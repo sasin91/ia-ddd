@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
 
 class LoginController extends Controller
@@ -47,5 +48,17 @@ class LoginController extends Controller
     public function showLoginForm()
     {
         return Inertia::render('Login');
+    }
+
+    /**
+     * Get the login username to be used by the controller.
+     *
+     * @return string
+     */
+    public function username()
+    {
+        return Request::has('username')
+            ? 'username'
+            : 'email';
     }
 }
