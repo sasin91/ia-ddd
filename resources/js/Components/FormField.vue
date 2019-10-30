@@ -16,9 +16,11 @@
             >
         </slot>
 
-        <ul v-show="hasErrors" class="text-red-500 text-xs italic mt-4">
-            <li v-for="error in errors">{{ error }}</li>
-        </ul>
+        <slot :has-errors="hasErrors" errors="errors" name="errors">
+            <ul class="text-red-500 text-xs italic mt-4" v-show="hasErrors">
+                <li v-for="error in errors">{{ error }}</li>
+            </ul>
+        </slot>
     </div>
 </template>
 
