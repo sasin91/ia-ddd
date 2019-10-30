@@ -1,5 +1,9 @@
 module.exports = {
     theme: {
+        ripple: theme => ({
+            colors: theme('colors'),
+        }),
+
         extend: {
             colors: {
                 brand: '#006738',
@@ -7,5 +11,7 @@ module.exports = {
         }
     },
     variants: {},
-    plugins: []
+    plugins: [
+        require('tailwindcss-ripple')(),
+    ]
 };
