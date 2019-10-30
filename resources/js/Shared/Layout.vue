@@ -13,9 +13,9 @@
 </template>
 
 <script>
-import Navbar from '@/Shared/Navbar'
+    import Navbar from '~/Shared/Navbar'
 
-export default {
+    export default {
      components: {
          Navbar,
      }

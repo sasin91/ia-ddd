@@ -20,7 +20,8 @@
                             >
                                 <ul class="text-red-500 text-xs italic mt-4" slot="errors"
                                     v-if="Object.keys($page.errors).some(key => key === 'email' || key === 'username')">
-                                    <li v-for="error in $page.errors['email'].concat($page.errors['username'])">{{ error
+                                    <li v-for="error in [].concat($page.errors['email'], $page.errors['username'])">{{
+                                        error
                                         }}
                                     </li>
                                 </ul>
