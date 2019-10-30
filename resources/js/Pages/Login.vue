@@ -1,5 +1,5 @@
 <template>
-    <layout>
+    <layout title="Login">
         <div class="container mx-auto">
             <div class="flex flex-wrap justify-center">
                 <div class="w-full max-w-sm">
@@ -17,7 +17,14 @@
                                 required
                                 autocomplete="email"
                                 autofocus
-                            />
+                            >
+                                <ul class="text-red-500 text-xs italic mt-4" slot="errors"
+                                    v-if="Object.keys($page.errors).some(key => key === 'email' || key === 'username')">
+                                    <li v-for="error in $page.errors['email'].concat($page.errors['username'])">{{ error
+                                        }}
+                                    </li>
+                                </ul>
+                            </form-field>
 
                             <form-field
                                 :form="form"
@@ -59,6 +66,7 @@
 </template>
 
 <script>
+    import {concat} from 'lodash'
     import Layout from '~/Shared/Layout'
     import Heading from "~/Components/Heading";
     import FormField from "../Components/FormField";
@@ -90,6 +98,8 @@
         },
 
         methods: {
+            concat,
+
             submit() {
                 this.$inertia.post('/login', this.form)
             },
