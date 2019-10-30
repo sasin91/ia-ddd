@@ -1,18 +1,17 @@
 <template>
     <div class="flex flex-wrap mb-6">
-        <slot name="label">
-            <label :for="attribute" class="block text-gray-700 text-sm font-bold mb-2">
-                {{ __(label || startCase(attribute)) }}
+        <slot class="labelClasses" name="label">
+            <label :classes="labelClasses" :for="attribute" :value="labelValue">
+                {{ __(labelValue) }}
             </label>
         </slot>
 
-        <slot name="input" :attribute="attribute" :form="form" :hasErrors="hasErrors">
+        <slot :attribute="attribute" :classes="inputClasses" :form="form" :hasErrors="hasErrors" name="input">
             <input
                 v-bind="$attrs"
                 :id="attribute"
                 :name="attribute"
-                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                :class="{ 'border-red-500': hasErrors }"
+                :class="inputClasses"
                 v-model="form[attribute]"
             >
         </slot>
@@ -24,7 +23,7 @@
 </template>
 
 <script>
-    import { startCase } from 'lodash'
+    import {startCase} from 'lodash'
 
     export default {
         name: "FormField",
@@ -42,6 +41,24 @@
 
             hasErrors() {
                 return Array.isArray(this.errors)
+            },
+
+            inputClasses() {
+                let classes = "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline";
+
+                if (this.hasErrors) {
+                    classes += 'border-red-500'
+                }
+
+                return classes
+            },
+
+            labelClasses() {
+                return "block text-gray-700 text-sm font-bold mb-2"
+            },
+
+            labelValue() {
+                return this.label || startCase(this.attribute)
             }
         },
 

@@ -12,9 +12,8 @@
                         <form class="w-full p-6" method="POST" @submit.prevent="submit">
                             <form-field
                                 :form="form"
-                                attribute="email"
-                                label="E-Mail Address"
-                                type="password"
+                                attribute="login"
+                                label="E-Mail Address Or Username"
                                 required
                                 autocomplete="email"
                                 autofocus
@@ -73,11 +72,22 @@
 
         data: () => ({
             form: {
-                email: '',
                 password: '',
                 remember: true
             }
         }),
+
+        watch: {
+            "form.login": {
+                handler(login) {
+                    if (login.includes('@')) {
+                        this.form.email = login
+                    } else {
+                        this.form.username = login
+                    }
+                }
+            }
+        },
 
         methods: {
             submit() {
