@@ -15,6 +15,7 @@ use App\User;
 use BenSampo\Enum\Traits\CastsEnums;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use function event;
 use DateTimeInterface;
@@ -100,6 +101,16 @@ class Payment extends Model
     public function customer(): BelongsTo
     {
         return $this->belongsTo(User::class, 'customer_email', 'email');
+    }
+
+    /**
+     * The transactions that's made in relation
+     *
+     * @return MorphMany
+     */
+    public function transactions(): MorphMany
+    {
+        return $this->morphMany(Transaction::class, 'transaction');
     }
 
     /**

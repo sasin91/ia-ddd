@@ -3,6 +3,7 @@
 namespace App\Domains\Booking\Models;
 
 use App\Domains\Billing\Models\Invoice;
+use App\Domains\Billing\Models\Transaction;
 use App\Domains\Booking\Models\Concerns\SendsDocuments;
 use App\Domains\Booking\Models\Concerns\Serviceable;
 use App\Domains\Booking\Models\Concerns\Voidable;
@@ -16,6 +17,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\URL;
 use function filled;
@@ -144,6 +146,16 @@ class Booking extends Model
     public function buyer(): BelongsTo
     {
         return $this->belongsTo(User::class, 'buyer_id');
+    }
+
+    /**
+     * The transaction(s) made in relation to this booking
+     *
+     * @return MorphMany
+     */
+    public function transactions(): MorphMany
+    {
+        return $this->morphMany(Transaction::class, 'product');
     }
 
     public function getSignedLinkAttribute(): string
