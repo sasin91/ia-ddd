@@ -1,15 +1,48 @@
-root = true
-
 [*]
 charset = utf-8
 end_of_line = lf
-insert_final_newline = true
+insert_final_newline = false
 indent_style = space
 indent_size = 4
 trim_trailing_whitespace = true
 
-[*.md]
-trim_trailing_whitespace = false
-
-[*.{yml,yaml}]
+[{.babelrc, .stylelintrc, .eslintrc, jest.config, *.json, *.jsb3, *.jsb2, *.bowerrc}]
+indent_style = space
 indent_size = 2
+
+[*.less]
+indent_style = space
+indent_size = 2
+
+[*.sass]
+indent_style = space
+indent_size = 2
+
+[*.scss]
+indent_style = space
+indent_size = 2
+
+[{jshint.json, *.jshintrc}]
+indent_style = space
+indent_size = 2
+
+[{tsconfig.lib.json, tsconfig.spec.json, tsconfig.app.json, tsconfig.json, tsconfig.e2e.json}]
+indent_style = space
+indent_size = 2
+
+[*.js.map]
+indent_style = space
+indent_size = 2
+
+[{*.cjsx, *.coffee}]
+indent_style = space
+indent_size = 2
+
+[{*.yml, *.yaml}]
+indent_style = space
+indent_size = 2
+
+[{composer.lock, composer.json}]
+indent_style = space
+indent_size = 2
+
