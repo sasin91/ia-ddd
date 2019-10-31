@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Domains\Booking\Tickets;
+namespace App\Domains\Booking\Models;
 
 use App\Domains\Booking\Enums\TicketChangeStatus;
-use App\Domains\Booking\Models\Ticket;
 use App\User;
+use DateTime;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -152,7 +152,7 @@ class TicketChange extends Model
     /**
      * Mark the ticket order change as completed
      *
-     * @param \DateTime|string|null $atDate
+     * @param DateTime|string|null $atDate
      * @return $this
      */
     public function markAsCompleted($atDate = null)
@@ -163,7 +163,7 @@ class TicketChange extends Model
     /**
      * Mark the ticket order change as confirmed
      *
-     * @param \DateTime|string|null $atDate
+     * @param DateTime|string|null $atDate
      * @return $this
      */
     public function markAsConfirmed($atDate = null)

@@ -8,7 +8,7 @@ use App\Domains\Billing\Models\Payment;
 use App\Domains\Billing\Models\Revenue;
 use App\Domains\Booking\Models\Booking;
 use App\Domains\Booking\Models\Passenger;
-use App\Domains\Booking\Tickets\TicketChange;
+use App\Domains\Booking\Models\TicketChange;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -59,6 +59,11 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+    }
+
     /**
      * Eager Load the last login
      *
@@ -69,11 +74,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function scopeWithLastLogin($query): void
     {
         $query->selectSub(
-            'last_login_id',
             Login::query()
             ->select('id')
             ->whereColumn('user_id', 'users.id')
-            ->latest()
+                ->latest(),
+            'last_login_id'
         )->with('lastLogin');
     }
 
@@ -85,6 +90,26 @@ class User extends Authenticatable implements MustVerifyEmail
     public function bookings(): HasMany
     {
         return $this->hasMany(Booking::class, 'buyer_id');
+    }
+
+    /**
+     * The users latest bookings
+     *
+     * @return HasMany
+     */
+    public function latestBookings(): HasMany
+    {
+        return $this->bookings()->latest()->take(15);
+    }
+
+    /**
+     * The users latest changes
+     *
+     * @return HasMany
+     */
+    public function latestChanges(): HasMany
+    {
+        return $this->requestedChanges()->orWhereColumn('handled_by', '=', 'users.id')->latest()->take(15);
     }
 
     /**

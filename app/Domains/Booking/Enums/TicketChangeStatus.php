@@ -2,7 +2,7 @@
 
 namespace App\Domains\Booking\Enums;
 
-use App\Domains\Booking\Tickets\TicketChange;
+use App\Domains\Booking\Models\TicketChange;
 use BenSampo\Enum\Enum;
 use function filled;
 

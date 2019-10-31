@@ -7,8 +7,8 @@ use App\Domains\Booking\Contracts\Changeable;
 use App\Domains\Booking\Enums\TicketPeriod;
 use App\Domains\Booking\Enums\TravelClass;
 use App\Domains\Booking\Models\Concerns\Serviceable;
-use App\Domains\Booking\Tickets\TicketChange;
 use BenSampo\Enum\Traits\CastsEnums;
+use DateTimeInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -16,7 +16,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use function abs;
 use function in_array;
 use function with;
-use DateTimeInterface;
 
 /**
  * Class Ticket

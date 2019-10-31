@@ -2,9 +2,9 @@
 
 namespace App\Domains\Booking\Collections;
 
+use DateTimeInterface;
 use Illuminate\Support\Collection;
 use function array_map;
-use DateTimeInterface;
 
 class TravelDateCollection extends Collection
 {
