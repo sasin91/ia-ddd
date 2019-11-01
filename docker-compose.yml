@@ -38,7 +38,7 @@ services:
       MYSQL_PASSWORD: "${DB_PASSWORD}"
     volumes:
      - ./docker/mysql/conf.d:/etc/mysql/conf.d
-#     - ./docker/mysql/logs:/var/log/mysql
+     - ./docker/mysql/logs:/var/log/mysql
     networks:
      - vessel
   redis:

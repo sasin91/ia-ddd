@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8df72992b7f452d7d5ad57fde7c47b49",
+  "content-hash": "ff00e55284e858c49642699d76503949",
     "packages": [
         {
             "name": "bensampo/laravel-enum",
@@ -1257,16 +1257,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v6.4.0",
+          "version": "v6.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "bbaf5e956cb24512c48fc31129a5e357a09a8ea1"
+              "reference": "ebd8fcc038effa8c5f8791346c48047f7d0ed320"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/bbaf5e956cb24512c48fc31129a5e357a09a8ea1",
-                "reference": "bbaf5e956cb24512c48fc31129a5e357a09a8ea1",
+              "url": "https://api.github.com/repos/laravel/framework/zipball/ebd8fcc038effa8c5f8791346c48047f7d0ed320",
+              "reference": "ebd8fcc038effa8c5f8791346c48047f7d0ed320",
                 "shasum": ""
             },
             "require": {
@@ -1399,21 +1399,21 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2019-10-23T13:29:43+00:00"
+          "time": "2019-10-29T14:30:39+00:00"
         },
         {
             "name": "laravel/nova",
-            "version": "v2.5.0",
+          "version": "v2.6.1",
             "source": {
                 "type": "git",
                 "url": "git@github.com:laravel/nova.git",
-                "reference": "4dae919af5c8038adf07d6ec55bbf07b560a6b4c"
+              "reference": "c2e0448986c23af336d8bf44cb02a74801f61c56"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://nova.laravel.com/dist/laravel/nova/laravel-nova-4dae919af5c8038adf07d6ec55bbf07b560a6b4c-zip-dcf811.zip",
-                "reference": "4dae919af5c8038adf07d6ec55bbf07b560a6b4c",
-                "shasum": "87535c62ee58dd7666b6502e043a440539e4e839"
+              "url": "https://nova.laravel.com/dist/laravel/nova/laravel-nova-c2e0448986c23af336d8bf44cb02a74801f61c56-zip-59afb4.zip",
+              "reference": "c2e0448986c23af336d8bf44cb02a74801f61c56",
+              "shasum": "83bd0827d315ac13856fd753d0fbb3bd0731054d"
             },
             "require": {
                 "cakephp/chronos": "^1.0",
@@ -1469,7 +1469,7 @@
                 "admin",
                 "laravel"
             ],
-            "time": "2019-10-15T19:49:38+00:00"
+          "time": "2019-10-29T20:04:49+00:00"
         },
         {
             "name": "laravel/tinker",
@@ -5463,37 +5463,43 @@
             "time": "2016-01-20T08:20:44+00:00"
         },
         {
-            "name": "laravel-frontend-presets/inertiajs",
-            "version": "0.3.0",
+          "name": "laravel/ui",
+          "version": "v1.1.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/laravel-frontend-presets/inertiajs.git",
-                "reference": "b5ada77d8b2af855eb18211b007b978cbd15cb77"
+              "url": "https://github.com/laravel/ui.git",
+              "reference": "57e2361b55ed1bc80ff0b3258b9713626fb38a2b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel-frontend-presets/inertiajs/zipball/b5ada77d8b2af855eb18211b007b978cbd15cb77",
-                "reference": "b5ada77d8b2af855eb18211b007b978cbd15cb77",
+              "url": "https://api.github.com/repos/laravel/ui/zipball/57e2361b55ed1bc80ff0b3258b9713626fb38a2b",
+              "reference": "57e2361b55ed1bc80ff0b3258b9713626fb38a2b",
                 "shasum": ""
             },
             "require": {
-                "inertiajs/inertia-laravel": "^0.1",
-                "laravel/framework": "^5.8|^6.0"
+              "illuminate/console": "~5.8|^6.0",
+              "illuminate/filesystem": "~5.8|^6.0",
+              "illuminate/support": "~5.8|^6.0",
+              "php": "^7.1.3"
             },
             "require-dev": {
-                "orchestra/testbench": "^3.8"
+              "mockery/mockery": "^1.0",
+              "phpunit/phpunit": "^8.0"
             },
             "type": "library",
             "extra": {
+              "branch-alias": {
+                "dev-master": "1.x-dev"
+              },
                 "laravel": {
                     "providers": [
-                        "LaravelFrontendPresets\\InertiaJsPreset\\InertiaJsPresetServiceProvider"
+                      "Laravel\\Ui\\UiServiceProvider"
                     ]
                 }
             },
             "autoload": {
                 "psr-4": {
-                    "LaravelFrontendPresets\\InertiaJsPreset\\": "src/"
+                  "Laravel\\Ui\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -5502,17 +5508,16 @@
             ],
             "authors": [
                 {
-                    "name": "Michael Dyrynda",
-                    "email": "michael@dyrynda.com.au"
+                  "name": "Taylor Otwell",
+                  "email": "taylor@laravel.com"
                 }
             ],
-            "description": "A Laravel frontend preset to get you up and running with Inertia.js",
+          "description": "Laravel UI utilities and presets.",
             "keywords": [
-                "inertiajs",
                 "laravel",
-                "preset"
+              "ui"
             ],
-            "time": "2019-10-09T01:49:15+00:00"
+          "time": "2019-10-11T12:16:52+00:00"
         },
         {
             "name": "mockery/mockery",
