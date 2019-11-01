@@ -85,9 +85,9 @@ class TravelDate
         );
     }
 
-    public static function make($time, $tz)
+    public static function make($time, $timezone)
     {
-        return new Carbon($time, $tz);
+        return new Carbon($time, $timezone);
     }
 }
 

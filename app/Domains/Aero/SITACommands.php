@@ -95,7 +95,7 @@ class SITACommands
                 Date::parse($ticket->passenger->passport_expires_at)->format(static::$dateFormat),
                 $lastName,
                 $firstName,
-                $isInfant ? $infantCount = $infantCount+1 : $passengerCount = $passengerCount+1
+                $isInfant ? $infantCount + 1 : $passengerCount + 1
             );
 
             $DOCS[] = Str::upper(

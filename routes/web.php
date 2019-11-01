@@ -21,15 +21,15 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', function () {
+Route::get('/', static function () {
     return Inertia::render('Welcome');
 });
 
-Route::get('/about', function () {
+Route::get('/about', static function () {
     return Inertia::render('About');
 });
 
-Route::get('/contact', function () {
+Route::get('/contact', static function () {
     return Inertia::render('Contact');
 });
 

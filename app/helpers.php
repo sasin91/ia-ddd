@@ -20,7 +20,7 @@ if (! function_exists('points_for')) {
         if ($currencyCode && $currencyCode !== config('currency.default')) {
             $exchangeRate = exchange_rate($currencyCode, config('currency.default'), $atDate);
 
-            $amount = $amount * $exchangeRate;
+            $amount *= $exchangeRate;
         }
 
         return (int)($amount / 100) * 0.8;

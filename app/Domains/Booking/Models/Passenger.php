@@ -158,8 +158,8 @@ class Passenger extends Model
     {
         try {
             return decrypt($value);
-        } catch (DecryptException $e) {
-            report($e);
+        } catch (DecryptException $decryptException) {
+            report($decryptException);
 
             return $value;
         }
