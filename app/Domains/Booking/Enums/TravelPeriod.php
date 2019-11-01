@@ -2,18 +2,14 @@
 
 namespace App\Domains\Booking\Enums;
 
-use ReflectionClass;
 use App\Domains\Booking\Models\Ticket;
 use BenSampo\Enum\Enum;
 use DateTimeInterface;
 use Illuminate\Support\Facades\Date;
-use function array_filter;
-use function gettype;
 use function in_array;
 use function is_null;
-use function stat;
 
-final class TicketPeriod extends Enum
+final class TravelPeriod extends Enum
 {
     const ONEWAY = 'one-way';
     const FLEX   = 'flex';

@@ -2,7 +2,7 @@
 
 namespace App\Domains\Booking\Nova;
 
-use App\Domains\Booking\Enums\TicketPeriod;
+use App\Domains\Booking\Enums\TravelPeriod;
 use App\Nova\Resource;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
@@ -72,7 +72,7 @@ class TicketPrice extends Resource
             BelongsTo::make('ageGroup'),
 
             Select::make('ticket_period')
-                ->options(TicketPeriod::toSelectArray()),
+                ->options(TravelPeriod::toSelectArray()),
 
             Select::make('currency')
                 ->options(config('currency.supported')),

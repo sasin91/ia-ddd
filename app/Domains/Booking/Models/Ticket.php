@@ -4,8 +4,8 @@ namespace App\Domains\Booking\Models;
 
 use App\Domains\Aero\Models\AeroAction;
 use App\Domains\Booking\Contracts\Changeable;
-use App\Domains\Booking\Enums\TicketPeriod;
 use App\Domains\Booking\Enums\TravelClass;
+use App\Domains\Booking\Enums\TravelPeriod;
 use App\Domains\Booking\Models\Concerns\Serviceable;
 use BenSampo\Enum\Traits\CastsEnums;
 use DateTimeInterface;
@@ -27,7 +27,7 @@ use function with;
  * @property string $home_flight_number
  * @property DateTimeInterface|null $home_departure_datetime
  * @property DateTimeInterface|null $home_arrival_datetime
- * @property TicketPeriod|string $period
+ * @property TravelPeriod|string $travel_period
  * @property TravelClass|string $travel_class
  * @property-read TicketPrice $price
  * @property-read Booking $booking
@@ -50,7 +50,7 @@ class Ticket extends Model implements Changeable
         'home_departure_datetime',
         'home_arrival_datetime',
 
-        'period',
+        'travel_period',
         'travel_class',
 
         'price_id',
@@ -67,7 +67,7 @@ class Ticket extends Model implements Changeable
     ];
 
     public $enumCasts = [
-        'period' => TicketPeriod::class,
+        'travel_period' => TravelPeriod::class,
         'travel_class' => TravelClass::class
     ];
 
@@ -172,8 +172,8 @@ class Ticket extends Model implements Changeable
     {
         $this->fill($changes);
 
-        if ($this->period->isNot(TicketPeriod::FLEX)) {
-            $ticketPeriod = TicketPeriod::forTicket($this);
+        if ($this->period->isNot(TravelPeriod::FLEX)) {
+            $ticketPeriod = TravelPeriod::forTicket($this);
 
             if ($this->period->isNot($ticketPeriod)) {
                 $this->period = $ticketPeriod;

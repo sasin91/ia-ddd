@@ -46,15 +46,15 @@ class Aero extends Resource
             ID::make('id')->sortable(),
 
             Text::make('name')
-                ->rules('required|max:254'),
+                ->rules('required', 'max:254'),
 
             Text::make('terminal_ip')
-                ->rules('ip|max:254'),
+                ->rules('ip', 'max:254'),
 
             Text::make('terminal_emulator')
                 ->rules('max:254'),
 
-            HasMany::make('Actions')->onlyOnDetail()
+            HasMany::make('Actions', 'actions', AeroAction::class)->onlyOnDetail()
         ];
     }
 }

@@ -4,6 +4,7 @@
 namespace App\Domains\Agent\Models;
 
 
+use App\StoredEvent;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
@@ -15,7 +16,6 @@ class AccountMovement extends Model
 
     protected $fillable = [
         'account_ledger_id',
-        'stored_event_type',
         'stored_event_id',
         'causer_type',
         'causer_id',
@@ -33,9 +33,14 @@ class AccountMovement extends Model
         return $this->belongsTo(AccountLedger::class);
     }
 
-    public function storedEvent(): MorphTo
+    /**
+     * The event that influenced the movement
+     *
+     * @return BelongsTo
+     */
+    public function event(): BelongsTo
     {
-        return $this->morphTo();
+        return $this->belongsTo(StoredEvent::class, 'stored_event_id');
     }
 
     /**

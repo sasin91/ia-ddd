@@ -2,6 +2,7 @@
 
 namespace App\Domains\Agent\Models;
 
+use App\Domains\Billing\Models\Concerns\Discountable;
 use App\Domains\Booking\Models\Travel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -9,7 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Commission extends Model
 {
-    use SoftDeletes;
+    use Discountable, SoftDeletes;
 
     protected $fillable = [
         'account_id',

@@ -14,9 +14,15 @@
             </div>
 
             <div class="flex justify-between items-center px-4 py-3 sm:p-0">
-                <inertia-link class="block px-4 py-2 text-white ripple-bg-brand" href="/home" v-if="auth">
-                    {{ auth.name }}
-                </inertia-link>
+                <template v-if="user">
+                    <inertia-link class="block px-4 py-2 text-white ripple-bg-brand" href="/home">
+                        {{ __('Home') }}
+                    </inertia-link>
+
+                    <a class="block px-4 py-2 text-white ripple-bg-brand" href="/nova">
+                        {{ __('Nova') }}
+                    </a>
+                </template>
                 <template v-else>
                     <inertia-link class="block px-4 py-2 text-white ripple-bg-brand" href="/login">
                         {{ __('Login') }}
@@ -34,7 +40,7 @@
 <script>
 export default {
     computed: {
-        auth() {
+        user() {
             return this.$page.auth;
         }
     }

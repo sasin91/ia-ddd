@@ -2,21 +2,17 @@
 
 namespace App\Providers;
 
-use App\Filesystem\FileIndex;
 use App\User;
-use Laravel\Nova\Nova;
-use Laravel\Nova\Cards\Help;
 use Illuminate\Support\Facades\Gate;
+use Laravel\Nova\Cards\Help;
+use Laravel\Nova\Nova;
 use Laravel\Nova\NovaApplicationServiceProvider;
-use Laravel\Nova\Resource;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 use Vyuldashev\NovaPermission\NovaPermissionTool;
 use function app_path;
-use function array_unique;
 use function collect;
 use function is_dir;
-use function iterator_to_array;
 
 class NovaServiceProvider extends NovaApplicationServiceProvider
 {
@@ -29,7 +25,9 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     {
         parent::boot();
 
-        $this->domainResources();
+        Nova::serving(function () {
+            $this->domainResources();
+        });
     }
 
     /**
@@ -78,13 +76,9 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      */
     protected function gate()
     {
-        Gate::define('viewNova', function () {
-            return true;
+        Gate::define('viewNova', function (?User $user) {
+            return $user && $user->hasPermissionTo('view Nova');
         });
-
-//        Gate::define('viewNova', function (?User $user) {
-//            return $user && $user->hasPermissionTo('view Nova');
-//        });
     }
 
     /**

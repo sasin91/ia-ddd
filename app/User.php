@@ -107,9 +107,9 @@ class User extends Authenticatable implements MustVerifyEmail
      *
      * @return HasMany
      */
-    public function latestChanges(): HasMany
+    public function latestRequestedChanges(): HasMany
     {
-        return $this->requestedChanges()->orWhereColumn('handled_by', '=', 'users.id')->latest()->take(15);
+        return $this->requestedChanges()->latest()->take(15);
     }
 
     /**

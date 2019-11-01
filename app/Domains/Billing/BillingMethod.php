@@ -36,6 +36,20 @@ class BillingMethod
     }
 
     /**
+     * Get the billing methods as an array formatted for a select.
+     *
+     * [string $name => string $name]
+     *
+     * @return array
+     */
+    public static function toSelectArray(): array
+    {
+        return static::$discovered->map(function ($billingMethod) {
+            return [$billingMethod->name => $billingMethod->name];
+        })->toArray();
+    }
+
+    /**
      * Resolve an instance of a billing method from it's bound class name or alias
      *
      * @param string $method

@@ -53,7 +53,7 @@ return [
     |
     | This configuration option defines the authentication guard that will
     | be used to protect your Nova routes. This option should match one
-    | of the authentication guards defined in the "auth" config file.
+    | of the authentication guards defined in the "user" config file.
     |
     */
 
@@ -66,7 +66,7 @@ return [
     |
     | This configuration option defines the password broker that will be
     | used when passwords are reset. This option should mirror one of
-    | the password reset options defined in the "auth" config file.
+    | the password reset options defined in the "user" config file.
     |
     */
 

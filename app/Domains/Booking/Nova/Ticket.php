@@ -2,18 +2,16 @@
 
 namespace App\Domains\Booking\Nova;
 
-use App\Domains\Booking\Enums\TicketPeriod;
 use App\Domains\Booking\Enums\TravelClass;
+use App\Domains\Booking\Enums\TravelPeriod;
 use App\Nova\Resource;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
-use function config;
 
 class Ticket extends Resource
 {
@@ -44,7 +42,7 @@ class Ticket extends Resource
      * @var array
      */
     public static $search = [
-        'ticket_period', 'currency'
+        'ticket_period'
     ];
 
     /**
@@ -85,7 +83,7 @@ class Ticket extends Resource
             BelongsTo::make('price'),
 
             Select::make('period')
-                ->options(TicketPeriod::toSelectArray()),
+                ->options(TravelPeriod::toSelectArray()),
 
             Select::make('travel_class')
                 ->options(TravelClass::toSelectArray())

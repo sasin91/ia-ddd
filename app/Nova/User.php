@@ -2,16 +2,19 @@
 
 namespace App\Nova;
 
+use App\Domains\Agent\Nova\Account;
+use App\Domains\Agent\Nova\Agency;
+use App\Domains\Booking\Nova\Booking;
+use App\Domains\Booking\Nova\Passenger;
+use App\Domains\Booking\Nova\TicketChange;
+use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Avatar;
 use Laravel\Nova\Fields\Country;
-use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
-use Illuminate\Http\Request;
 use Laravel\Nova\Fields\MorphToMany;
-use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Fields\Gravatar;
 use Laravel\Nova\Fields\Password;
+use Laravel\Nova\Fields\Text;
 use Vyuldashev\NovaPermission\Permission;
 use Vyuldashev\NovaPermission\Role;
 
@@ -48,22 +51,9 @@ class User extends Resource
     ];
 
     /**
-     * Create a new resource instance.
-     *
-     * @param  \App\User  $resource
-     * @return void
-     */
-    public function __construct($resource)
-    {
-        parent::__construct(
-            $resource->withLastLogin()
-        );
-    }
-
-    /**
      * Get the fields displayed by the resource.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @return array
      */
     public function fields(Request $request)
@@ -96,25 +86,23 @@ class User extends Resource
                 ->creationRules('required', 'string', 'min:8')
                 ->updateRules('nullable', 'string', 'min:8'),
 
-            DateTime::make('last_login'),
-
             MorphToMany::make('Roles', 'roles', Role::class),
             MorphToMany::make('Permissions', 'permissions', Permission::class),
 
-            HasMany::make('Bookings')->onlyOnDetail(),
-            HasMany::make('requestedChanges')->onlyOnDetail(),
-            HasMany::make('handledChanges')->onlyOnDetail(),
-            HasMany::make('Passengers')->onlyOnDetail(),
-            HasMany::make('Agencies')->onlyOnDetail(),
-            HasMany::make('Accounts')->onlyOnDetail(),
-            HasMany::make('Logins')->onlyOnDetail(),
+            HasMany::make('Bookings', 'bookings', Booking::class)->onlyOnDetail(),
+            HasMany::make('Requested Changes', 'requestedChanges', TicketChange::class)->onlyOnDetail(),
+            HasMany::make('Handled Changes', 'handledChanges', TicketChange::class)->onlyOnDetail(),
+            HasMany::make('Passengers', 'passengers', Passenger::class)->onlyOnDetail(),
+            HasMany::make('Agencies', 'agencies', Agency::class)->onlyOnDetail(),
+            HasMany::make('Accounts', 'accounts', Account::class)->onlyOnDetail(),
+            HasMany::make('Logins', 'logins', Login::class)->onlyOnDetail(),
         ];
     }
 
     /**
      * Get the cards available for the request.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @return array
      */
     public function cards(Request $request)
@@ -125,7 +113,7 @@ class User extends Resource
     /**
      * Get the filters available for the resource.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @return array
      */
     public function filters(Request $request)
@@ -136,7 +124,7 @@ class User extends Resource
     /**
      * Get the lenses available for the resource.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @return array
      */
     public function lenses(Request $request)
@@ -147,7 +135,7 @@ class User extends Resource
     /**
      * Get the actions available for the resource.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @return array
      */
     public function actions(Request $request)

@@ -4,10 +4,10 @@
 namespace App\Domains\Aero\Nova;
 
 
+use App\Domains\Booking\Nova\Ticket;
 use App\Nova\Resource;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
@@ -50,9 +50,9 @@ class AeroAction extends Resource
         return [
             ID::make('id')->sortable(),
 
-            BelongsTo::make('Ticket'),
+            BelongsTo::make('Ticket', 'ticket', Ticket::class),
 
-            BelongsTo::make('Aero'),
+            BelongsTo::make('Aero', 'aero', Aero::class),
 
             Text::make('Command'),
 
