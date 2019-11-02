@@ -19,7 +19,8 @@
                         {{ __('Home') }}
                     </inertia-link>
 
-                    <a class="block px-4 py-2 text-white ripple-bg-brand" href="/nova">
+                    <a class="block px-4 py-2 text-white ripple-bg-brand" href="/nova"
+                       v-if="user && user.authorization.viewNova">
                         {{ __('Nova') }}
                     </a>
                 </template>

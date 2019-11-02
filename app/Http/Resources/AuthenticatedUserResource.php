@@ -5,7 +5,6 @@ namespace App\Http\Resources;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Facades\Gate;
 
 /**
  * Class AuthenticatedUserResource
@@ -32,7 +31,7 @@ class AuthenticatedUserResource extends JsonResource
             'phone' => $this->phone,
 
             'authorization' => [
-                'viewNova' => Gate::forUser($this->resource)->check('viewNova')
+                'viewNova' => $this->hasPermissionTo('view Nova')
             ]
         ];
     }
