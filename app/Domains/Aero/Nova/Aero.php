@@ -25,6 +25,13 @@ class Aero extends Resource
     public static $model = \App\Domains\Aero\Models\Aero::class;
 
     /**
+     * The single value that should be used to represent the resource when being displayed.
+     *
+     * @var string
+     */
+    public static $title = 'name';
+
+    /**
      * Get the displayable label of the resource.
      *
      * @return string
@@ -43,15 +50,15 @@ class Aero extends Resource
     public function fields(Request $request)
     {
         return [
-            ID::make('id')->sortable(),
+            ID::make()->sortable(),
 
-            Text::make('name')
+            Text::make('Name')
                 ->rules('required', 'max:254'),
 
-            Text::make('terminal_ip')
+            Text::make('IP Address', 'terminal_ip')
                 ->rules('ip', 'max:254'),
 
-            Text::make('terminal_emulator')
+            Text::make('Emulator', 'terminal_emulator')
                 ->rules('max:254'),
 
             HasMany::make('Actions', 'actions', AeroAction::class)->onlyOnDetail()
