@@ -2,11 +2,15 @@
 
 namespace App\Domains\Booking\Nova;
 
+use DateTimeZone;
 use App\Nova\Resource;
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\Country;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
+use function collect;
 
 class Airport extends Resource
 {
@@ -53,16 +57,21 @@ class Airport extends Resource
         return [
             ID::make()->sortable(),
 
-            Text::make('IATA')->rules('required', 'string')->sortable(),
+            Text::make('IATA', 'IATA')->rules('required', 'string')->sortable(),
 
             Text::make(__('Location'), 'location')->rules('required', 'string')->sortable(),
 
-            Text::make(__('Country'), 'country')->rules('required', 'string')->sortable(),
+            Country::make(__('Country'), 'country')->rules('required', 'string')->sortable(),
 
-            Text::make(__('Timezone'), 'timezone')->rules('required', 'string')->sortable(),
+            Select::make(__('Timezone'), 'timezone')
+                ->options(collect(DateTimeZone::listIdentifiers())->mapWithKeys(function ($timezone) {
+                    return [$timezone => $timezone];
+                })->toArray())
+                ->rules('required', 'string')
+                ->sortable(),
 
-            HasMany::make(__('Travels'), 'departures')->rules('exists:travels,id'),
-            HasMany::make(__('Arrivals'), 'arrivals')->rules('exists:travels,id'),
+            HasMany::make(__('Departures'), 'departures', Travel::class)->rules('exists:travels,id'),
+            HasMany::make(__('Arrivals'), 'arrivals', Travel::class)->rules('exists:travels,id'),
         ];
     }
 }
