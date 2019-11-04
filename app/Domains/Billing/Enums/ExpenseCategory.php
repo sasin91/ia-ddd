@@ -4,7 +4,7 @@ namespace App\Domains\Billing\Enums;
 
 use BenSampo\Enum\Enum;
 
-final class PaymentCategory extends Enum
+final class ExpenseCategory extends Enum
 {
     const BILL = 'bill';
     const REFUND = 'refund';

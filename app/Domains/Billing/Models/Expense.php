@@ -8,7 +8,7 @@ use App\Domains\Agent\Events\PointsDepositedToAccount;
 use App\Domains\Agent\Events\PointsRefundedToAccount;
 use App\Domains\Agent\Events\PointsWithdrawnFromAccount;
 use App\Domains\Agent\Models\Account;
-use App\Domains\Billing\Enums\PaymentCategory;
+use App\Domains\Billing\Enums\ExpenseCategory;
 use App\Domains\Billing\Models\Concerns\CanBePaid;
 use App\Domains\Billing\Models\Concerns\ResolvesBillingMethod;
 use App\User;
@@ -21,11 +21,11 @@ use function event;
 use DateTimeInterface;
 
 /**
- * Class BillingMethod
+ * Class Expense
  *
  * Money out of the company, eg. a Refund to a customer or a bill.
  *
- * @package App\Domains\BillingMethod\Models
+ * @package App\Domains\Billing\Models
  *
  * @property integer|null $account_id
  * @property integer|null $revenue_id
@@ -35,7 +35,7 @@ use DateTimeInterface;
  * @property integer $exchange_rate
  * @property string $currency_code
  * @property string|null $description
- * @property PaymentCategory|string $category
+ * @property ExpenseCategory|string $category
  * @property string $billing_method
  * @property string|null $reference
  * @property DateTimeInterface|null $paid_at
@@ -44,7 +44,7 @@ use DateTimeInterface;
  * @property-read Revenue|null $revenue Optional refunded revenue
  * @property-read User|null $customer
  */
-class Payment extends Model
+class Expense extends Model
 {
     use CanBePaid, CastsEnums, SoftDeletes, ResolvesBillingMethod;
 
@@ -68,11 +68,11 @@ class Payment extends Model
     ];
 
     public $enumCasts = [
-        'category' => PaymentCategory::class
+        'category' => ExpenseCategory::class
     ];
 
     /**
-     * Optionally, the account that's received the payment.
+     * Optionally, the account that's received the expense.
      * Typically when the category is a refund.
      *
      * @return BelongsTo

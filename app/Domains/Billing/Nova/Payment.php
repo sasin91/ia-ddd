@@ -4,7 +4,7 @@ namespace App\Domains\Billing\Nova;
 
 use App\Domains\Agent\Nova\Account;
 use App\Domains\Billing\BillingMethod;
-use App\Domains\Billing\Enums\PaymentCategory;
+use App\Domains\Billing\Enums\ExpenseCategory;
 use App\Nova\Resource;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
@@ -16,7 +16,7 @@ use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use function config;
 
-class Payment extends Resource
+class Expense extends Resource
 {
     /**
      * The logical group associated with the resource.
@@ -30,7 +30,7 @@ class Payment extends Resource
      *
      * @var string
      */
-    public static $model = \App\Domains\Billing\Models\Payment::class;
+    public static $model = \App\Domains\Billing\Models\Expense::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -77,7 +77,7 @@ class Payment extends Resource
             Text::make('description'),
 
             Select::make('category')
-                ->options(PaymentCategory::toSelectArray()),
+                ->options(ExpenseCategory::toSelectArray()),
 
             Select::make('billing_method')
                 ->options(BillingMethod::toSelectArray()),

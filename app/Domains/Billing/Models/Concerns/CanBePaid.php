@@ -71,7 +71,7 @@ trait CanBePaid
     }
 
     /**
-     * Query the unpaid payments
+     * Query the unpaid expenses
      *
      * @param Builder $query
      * @param DateTimeInterface|string|null $atDate

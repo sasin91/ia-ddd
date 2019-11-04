@@ -20,7 +20,7 @@ class Transaction extends Model
     /**
      * The actual transaction
      *
-     * @return MorphTo<Revenue,Payment>
+     * @return MorphTo<Revenue,Expense>
      */
     public function transaction(): MorphTo
     {

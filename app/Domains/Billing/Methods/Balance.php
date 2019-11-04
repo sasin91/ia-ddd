@@ -6,11 +6,11 @@ namespace App\Domains\Billing\Methods;
 use App\Domains\Billing\Methods\Concerns\ResolvesAccount;
 use App\Domains\Billing\Methods\Concerns\ValidatesAccount;
 use App\Domains\Agent\Models\AccountLedger;
-use App\Domains\Billing\Enums\PaymentCategory;
+use App\Domains\Billing\Enums\ExpenseCategory;
 use App\Domains\Billing\Enums\RevenueCategory;
 use App\Domains\Billing\Exceptions\WithdrawFailed;
 use App\Domains\Billing\Methods\Concerns\AppliesDiscounts;
-use App\Domains\Billing\Models\Payment;
+use App\Domains\Billing\Models\Expense;
 use App\Domains\Billing\Models\Revenue;
 use App\Domains\Billing\Configuration\BillingMethodOptions;
 use App\Domains\Billing\Contracts\BillingMethod;
@@ -112,32 +112,32 @@ class  Balance implements BillingMethod
 
         $options = BillingMethodOptions::parse($options);
 
-        return tap(new Payment([
+        return tap(new Expense([
             'customer_email' => $options->getCustomerEmail() ?? $account->owner->email,
             'amount' => $$revenueOrAmount,
             'currency_code' => $options->getCurrencyCode(),
             'exchange_rate' => $options->getExchangeRate(),
-            'category' => PaymentCategory::REFUND,
+            'category' => ExpenseCategory::REFUND,
             'billing_method' => class_basename($this),
             'reference' => $options->getReference(),
             'paid_at' => $options->getPaidAt(),
             'description' => $options->getDescription(),
-        ]), function (Payment $payment) use ($options, $revenueOrAmount, $account) {
+        ]), function (Expense $expense) use ($options, $revenueOrAmount, $account) {
             if ($revenueOrAmount instanceof Revenue) {
-                $payment->revenue()->associate($revenueOrAmount);
+                $expense->revenue()->associate($revenueOrAmount);
             }
 
             if ($account) {
-                $payment->account()->associate($account);
+                $expense->account()->associate($account);
             }
 
-            $payment->saveOrFail();
+            $expense->saveOrFail();
 
-            if ($payment->category->is(PaymentCategory::REFUND) && $payment->account) {
-                $payment->refundToAccount();
+            if ($expense->category->is(ExpenseCategory::REFUND) && $expense->account) {
+                $expense->refundToAccount();
 
-                if ($payment->revenue) {
-                    $payment->withdrawEarnedPointsFromAccount();
+                if ($expense->revenue) {
+                    $expense->withdrawEarnedPointsFromAccount();
                 }
             }
         });

@@ -2,7 +2,7 @@
 
 namespace App\Domains\Agent\Nova;
 
-use App\Domains\Billing\Nova\Payment;
+use App\Domains\Billing\Nova\Expense;
 use App\Domains\Billing\Nova\Revenue;
 use App\Nova\Resource;
 use App\Nova\StoredEvent;
@@ -62,7 +62,7 @@ class AccountMovement extends Resource
 
             MorphTo::make('Causer')->types([
                 Revenue::class,
-                Payment::class
+                Expense::class
             ]),
 
             Currency::make('Amount'),

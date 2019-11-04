@@ -25,7 +25,7 @@ class PointsWithdrawnFromAccount implements ShouldBeStored
     /**
      * The class name of the model that caused this event.
      *
-     * @options [App\Payment]
+     * @options [App\Expense]
      * @var null|string
      */
     public $causerType;

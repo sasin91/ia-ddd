@@ -3,7 +3,7 @@
 namespace App\Domains\Billing\Contracts;
 
 use App\Domains\Billing\Configuration\BillingMethodOptions;
-use App\Domains\Billing\Models\Payment;
+use App\Domains\Billing\Models\Expense;
 use Closure;
 use App\Domains\Agent\Models\Account;
 use Throwable;
@@ -39,7 +39,7 @@ interface BillingMethod
      * @param Revenue|integer $revenueOrAmount
      * @param Account|string $accountOrEmail
      * @param array|Closure|BillingMethodOptions|null $options
-     * @return Payment
+     * @return Expense
      * @throws Throwable
      */
     public function refund($revenueOrAmount, $accountOrEmail, $options = null);

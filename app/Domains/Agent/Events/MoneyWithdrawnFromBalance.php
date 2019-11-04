@@ -23,7 +23,7 @@ class MoneyWithdrawnFromBalance implements ShouldBeStored
     /**
      * The class name of the model that caused this event.
      *
-     * @options [App\Revenue,App\Payment]
+     * @options [App\Revenue,App\Expense]
      * @var null|string
      */
     public $causerType;

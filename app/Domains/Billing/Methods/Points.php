@@ -8,9 +8,9 @@ use App\Domains\Billing\Methods\Concerns\ValidatesAccount;
 use App\Domains\Agent\Models\Account;
 use App\Domains\Billing\Configuration\BillingMethodOptions;
 use App\Domains\Billing\Contracts\BillingMethod;
-use App\Domains\Billing\Enums\PaymentCategory;
+use App\Domains\Billing\Enums\ExpenseCategory;
 use App\Domains\Billing\Exceptions\WithdrawFailed;
-use App\Domains\Billing\Models\Payment;
+use App\Domains\Billing\Models\Expense;
 use App\Domains\Billing\Models\Revenue;
 use function class_basename;
 use function is_object;
@@ -46,23 +46,23 @@ class Points implements BillingMethod
             $account
         );
 
-        return tap(new Payment([
+        return tap(new Expense([
             'customer_email' => $options->getCustomerEmail() ?? $account->owner->email,
             'amount' => $amount,
             'points' => $points,
             'currency_code' => $options->getCurrencyCode(),
             'exchange_rate' => $options->getExchangeRate(),
-            'category' => PaymentCategory::POINTS_PURCHASE,
+            'category' => ExpenseCategory::POINTS_PURCHASE,
             'billing_method' => class_basename($this),
             'reference' => $options->getReference(),
             'description' => $options->getDescription()
-        ]), function (Payment $payment) use ($options, $account) {
-            $payment->account()->associate($account);
-            $payment->customer()->associate($account->owner);
+        ]), function (Expense $expense) use ($options, $account) {
+            $expense->account()->associate($account);
+            $expense->customer()->associate($account->owner);
 
-            $payment->saveOrFail();
+            $expense->saveOrFail();
 
-            $payment->withdrawPointsFromAccount();
+            $expense->withdrawPointsFromAccount();
         });
     }
 
@@ -77,23 +77,23 @@ class Points implements BillingMethod
 
         $options = BillingMethodOptions::parse($options);
 
-        return tap(new Payment([
+        return tap(new Expense([
             'customer_email' => $options->getCustomerEmail() ?? $account->owner->email,
             'amount' => $amount,
             'points' => points_for($amount, $options->getCurrencyCode()),
             'currency_code' => $options->getCurrencyCode(),
             'exchange_rate' => $options->getExchangeRate(),
-            'category' => PaymentCategory::POINTS_DEPOSIT,
+            'category' => ExpenseCategory::POINTS_DEPOSIT,
             'billing_method' => class_basename($this),
             'reference' => $options->getReference(),
             'description' => $options->getDescription()
-        ]), function (Payment $payment) use ($options, $account) {
-            $payment->account()->associate($account);
-            $payment->customer()->associate($account->owner);
+        ]), function (Expense $expense) use ($options, $account) {
+            $expense->account()->associate($account);
+            $expense->customer()->associate($account->owner);
 
-            $payment->saveOrFail();
+            $expense->saveOrFail();
 
-            $payment->depositPointsToAccount();
+            $expense->depositPointsToAccount();
         });
     }
 
@@ -110,27 +110,27 @@ class Points implements BillingMethod
 
         $options = BillingMethodOptions::parse($options);
 
-        return tap(new Payment([
+        return tap(new Expense([
             'customer_email' => $options->getCustomerEmail() ?? $account->owner->email,
             'amount' => $amount,
             'points' => points_for($amount, $options->getCurrencyCode()),
             'currency_code' => $options->getCurrencyCode(),
             'exchange_rate' => $options->getExchangeRate(),
-            'category' => PaymentCategory::POINTS_REFUND,
+            'category' => ExpenseCategory::POINTS_REFUND,
             'billing_method' => class_basename($this),
             'reference' => $options->getReference(),
             'description' => $options->getDescription()
-        ]), function (Payment $payment) use ($options, $account, $revenueOrAmount) {
+        ]), function (Expense $expense) use ($options, $account, $revenueOrAmount) {
             if ($revenueOrAmount instanceof Revenue) {
-                $payment->revenue()->associate($revenueOrAmount);
+                $expense->revenue()->associate($revenueOrAmount);
             }
 
-            $payment->account()->associate($account);
-            $payment->customer()->associate($account->owner);
+            $expense->account()->associate($account);
+            $expense->customer()->associate($account->owner);
 
-            $payment->saveOrFail();
+            $expense->saveOrFail();
 
-            $payment->refundPointsToAccount();
+            $expense->refundPointsToAccount();
         });
     }
 

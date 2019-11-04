@@ -4,7 +4,7 @@ namespace App;
 
 use App\Domains\Agent\Models\Account;
 use App\Domains\Agent\Models\Agency;
-use App\Domains\Billing\Models\Payment;
+use App\Domains\Billing\Models\Expense;
 use App\Domains\Billing\Models\Revenue;
 use App\Domains\Booking\Models\Booking;
 use App\Domains\Booking\Models\Passenger;
@@ -163,13 +163,13 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
-     * The payments made on accounts by this user
+     * The expenses made on accounts by this user
      *
      * @return HasManyThrough
      */
-    public function payments(): HasManyThrough
+    public function expenses(): HasManyThrough
     {
-        return $this->hasManyThrough(Payment::class, Account::class, 'owner_id');
+        return $this->hasManyThrough(Expense::class, Account::class, 'owner_id');
     }
 
     /**
