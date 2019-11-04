@@ -27,7 +27,7 @@ class TravelDate
                     );
 
                     $arrivesAt = TravelDate::make(
-                        Date::parse($date)->setTimeFromTimeString($times->destination_time),
+                        Date::parse($date)->setTimeFromTimeString($times->arrival_time),
                         $departure->destinationAirport->timezone
                     );
 

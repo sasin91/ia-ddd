@@ -13,7 +13,7 @@ class TravelTime extends Model
         'travel_id',
         'weekday',
         'departure_time',
-        'destination_time'
+        'arrival_time'
     ];
 
     public function travel()
