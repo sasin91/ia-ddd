@@ -20,7 +20,6 @@ class CreatePassengersTable extends Migration
             $table->foreign('creator_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('set null');
 
             $table->string('phone')->nullable();
-            $table->string('email');
             $table->string('title')->nullable();
             $table->string('first_name');
             $table->string('last_name');
@@ -41,8 +40,6 @@ class CreatePassengersTable extends Migration
 
             $table->timestamps();
             $table->softDeletes();
-
-            $table->index('email');
         });
     }
 

@@ -13,5 +13,10 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(PermissionTablesSeeder::class);
         $this->call(UsersTableSeeder::class);
+        $this->call(AgeGroupsTableSeeder::class);
+
+        $this->call(AirportsTableSeeder::class);
+        $this->call(TravelTablesSeeder::class);
+        $this->call(PriceSeasonTablesSeeder::class);
     }
 }

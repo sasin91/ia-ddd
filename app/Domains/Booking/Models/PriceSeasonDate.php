@@ -26,7 +26,7 @@ class PriceSeasonDate extends Model
      */
     public function season(): BelongsTo
     {
-        return $this->belongsTo(PriceSeason::class);
+        return $this->belongsTo(PriceSeason::class, 'season_id');
     }
 
     /**

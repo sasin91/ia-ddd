@@ -51,11 +51,11 @@ class TravelCancel extends Resource
         return [
             ID::make()->sortable(),
 
-            Text::make('flight_number')
+            Text::make('Flight Nr.', 'flight_number')
                 ->rules('required', 'string')
                 ->sortable(),
 
-            BelongsTo::make('departure'),
+            BelongsTo::make('Travel', 'travel', Travel::class),
         ];
     }
 }

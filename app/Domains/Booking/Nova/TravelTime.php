@@ -52,17 +52,17 @@ class TravelTime extends Resource
         return [
             ID::make()->sortable(),
 
-            BelongsTo::make('travel')
+            BelongsTo::make('Travel', 'travel', Travel::class)
                 ->rules('required'),
 
-            Select::make('weekday')
+            Select::make('Weekday', 'weekday')
                 ->options(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'])
                 ->rules('required'),
 
-            Number::make('departure_time')
+            Number::make('Departure Time', 'departure_time')
                 ->rules('date_format:H:i'),
 
-            Number::make('destination_time')
+            Number::make('Arrival Time', 'arrival_time')
                 ->rules('date_format:H:i')
         ];
     }

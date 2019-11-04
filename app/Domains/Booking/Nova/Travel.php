@@ -10,6 +10,8 @@ use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
+use SimpleSquid\Nova\Fields\Enum\Enum;
+
 use function __;
 
 class Travel extends Resource
@@ -29,20 +31,23 @@ class Travel extends Resource
     public static $model = \App\Domains\Booking\Models\Travel::class;
 
     /**
-     * The single value that should be used to represent the resource when being displayed.
-     *
-     * @var string
-     */
-    public static $title = 'flight_number';
-
-    /**
      * The columns that should be searched.
      *
      * @var array
      */
     public static $search = [
-        'flight_number',
+       'travel_class', 'flight_number',
     ];
+
+    /**
+     * The single value that should be used to represent the resource when being displayed.
+     *
+     * @return string
+     */
+    public function title()
+    {
+        return "{$this->flight_number} {$this->travel_class}";
+    }
 
     /**
      * Get the fields displayed by the resource.
@@ -55,31 +60,32 @@ class Travel extends Resource
         return [
             ID::make()->sortable(),
 
-            Text::make('flight_number')
+            Text::make('Flight Nr.', 'flight_number')
                 ->rules('required', 'string')
                 ->sortable(),
 
-            Select::make('travel_class')
+            Enum::make('Class', 'travel_class')
                 ->creationRules('required')
-                ->options(TravelClass::toSelectArray())
+                ->attachEnum(TravelClass::class)
                 ->sortable(),
 
-            BelongsTo::make(__('Departure'), 'departureAirport')
+            BelongsTo::make('Departure', 'departureAirport', Airport::class)
                 ->rules('required', 'exists:airports,id')
                 ->sortable()
                 ->searchable(),
 
-            BelongsTo::make(__('Destination'), 'destinationAirport')
+            BelongsTo::make(__('Destination'), 'destinationAirport', Airport::class)
                 ->rules('required', 'exists:airports,id')
                 ->sortable()
                 ->searchable(),
 
-            HasMany::make('Seats')->onlyOnDetail(),
-            HasMany::make('Times')->onlyOnDetail(),
-            HasMany::make('Stopovers')->onlyOnDetail(),
-            HasMany::make('Changes')->onlyOnDetail(),
-            HasMany::make('Cancels')->onlyOnDetail(),
-            HasMany::make('Tickets')->onlyOnDetail(),
+            HasMany::make('Times', 'times', TravelTime::class)->onlyOnDetail(),
+            HasMany::make('Seats', 'seats', Seat::class)->onlyOnDetail(),
+            HasMany::make('Stopovers', 'stopovers', TravelStopover::class)->onlyOnDetail(),
+            HasMany::make('Changes', 'changes', TravelChange::class)->onlyOnDetail(),
+            HasMany::make('Cancels', 'cancels', TravelCancel::class)->onlyOnDetail(),
+            HasMany::make('Outward Tickets', 'outwardTickets', Ticket::class)->onlyOnDetail(),
+            HasMany::make('Home Tickets', 'homeTickets', Ticket::class)->onlyOnDetail(),
         ];
     }
 }

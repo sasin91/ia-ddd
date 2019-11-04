@@ -3,6 +3,7 @@
 namespace App\Domains\Booking\Nova;
 
 use App\Nova\Resource;
+use App\Nova\User;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
@@ -62,7 +63,7 @@ class Booking extends Resource
             Text::make('buyer_email')
                 ->sortable(),
 
-            BelongsTo::make('buyer')
+            BelongsTo::make('buyer', 'Buyer', User::class)
                 ->sortable(),
 
             Boolean::make('express'),
@@ -73,7 +74,7 @@ class Booking extends Resource
 
             DateTime::make('documents_sent_at'),
 
-            HasMany::make('tickets')
+            HasMany::make('tickets', 'Tickets', Ticket::class)
                 ->onlyOnDetail(),
         ];
     }

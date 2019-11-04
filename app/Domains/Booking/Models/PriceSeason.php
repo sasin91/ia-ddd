@@ -43,6 +43,6 @@ class PriceSeason extends Model
      */
     public function dates(): HasMany
     {
-        return $this->hasMany(PriceSeasonDate::class);
+        return $this->hasMany(PriceSeasonDate::class, 'season_id');
     }
 }

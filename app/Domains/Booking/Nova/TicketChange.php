@@ -50,9 +50,9 @@ class TicketChange extends Resource
 
             Text::make('status')->readonly(),
 
-            BelongsTo::make('Handled by', 'handled_by', User::class),
+            BelongsTo::make('Handled by', 'handledBy', User::class),
 
-            BelongsTo::make('Requested by', 'requested_by', User::class),
+            BelongsTo::make('Requested by', 'requestedBy', User::class),
 
             BelongsTo::make('Ticket', 'ticket', Ticket::class),
 

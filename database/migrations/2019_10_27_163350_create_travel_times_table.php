@@ -19,7 +19,7 @@ class CreateTravelTimesTable extends Migration
             $table->foreign('travel_id')->references('id')->on('travels');
             $table->string('weekday');
             $table->time('departure_time');
-            $table->time('destination_time');
+            $table->time('arrival_time');
             $table->timestamps();
             $table->softDeletes();
         });

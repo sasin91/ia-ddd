@@ -143,16 +143,26 @@ class Travel extends Model
      */
     public function cancels()
     {
-        return $this->hasMany(TravelCancel::class, 'flight_number');
+        return $this->hasMany(TravelCancel::class, 'flight_number', 'flight_number');
     }
 
     /**
-     * The tickets sold for this flight
+     * The tickets that's flying out on this Travel
      *
      * @return  HasMany
      */
-    public function tickets()
+    public function outwardTickets()
     {
-        return $this->hasMany(Ticket::class, 'flight_number');
+        return $this->hasMany(Ticket::class,'outward_flight_number', 'flight_number');
+    }
+
+    /**
+     * The tickets that's flying home with this Travel
+     *
+     * @return  HasMany
+     */
+    public function homeTickets()
+    {
+        return $this->hasMany(Ticket::class,'home_flight_number', 'flight_number');
     }
 }

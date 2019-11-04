@@ -2,6 +2,7 @@
 
 namespace App\Domains\Booking\Nova;
 
+use App\Domains\Aero\Nova\AeroAction;
 use App\Domains\Booking\Enums\TravelClass;
 use App\Domains\Booking\Enums\TravelPeriod;
 use App\Nova\Resource;
@@ -76,41 +77,41 @@ class Ticket extends Resource
         return [
             ID::make()->sortable(),
 
-            BelongsTo::make('booking'),
+            BelongsTo::make('Booking', 'booking', Booking::class),
 
-            BelongsTo::make('passenger'),
+            BelongsTo::make('Passenger', 'passenger', Passenger::class),
 
-            BelongsTo::make('price'),
+            BelongsTo::make('Price', 'price', TicketPrice::class),
 
-            Select::make('period')
+            Select::make('Travel Period', 'period')
                 ->options(TravelPeriod::toSelectArray()),
 
-            Select::make('travel_class')
+            Select::make('Travel Class', 'travel_class')
                 ->options(TravelClass::toSelectArray())
                 ->hideFromIndex(),
 
-            Text::make('outward_flight_number')
+            Text::make('Outward Flight Nr.', 'outward_flight_number')
                 ->hideFromIndex(),
 
-            DateTime::make('outward_departure_datetime')
+            DateTime::make('Outward Departure', 'outward_departure_datetime')
                 ->hideFromIndex(),
 
-            DateTime::make('outward_arrival_datetime')
+            DateTime::make('Outward Arrival', 'outward_arrival_datetime')
                 ->hideFromIndex(),
 
-            Text::make('home_flight_number')
+            Text::make('Home Flight Nr.', 'home_flight_number')
                 ->hideFromIndex(),
 
-            DateTime::make('home_departure_datetime')
+            DateTime::make('Home Departure', 'home_departure_datetime')
                 ->hideFromIndex(),
 
-            DateTime::make('home_arrival_datetime')
+            DateTime::make('Home Arrival', 'home_arrival_datetime')
                 ->hideFromIndex(),
 
-            HasMany::make('aeroActions')
+            HasMany::make('Actions', 'aeroActions', AeroAction::class)
                 ->onlyOnDetail(),
 
-            HasMany::make('ticketChanges')
+            HasMany::make('Changes', 'ticketChanges', TicketChange::class)
                 ->onlyOnDetail(),
         ];
     }

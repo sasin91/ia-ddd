@@ -53,10 +53,10 @@ class TravelStopover extends Resource
         return [
             ID::make()->sortable(),
 
-            BelongsTo::make('travel')
+            BelongsTo::make('Travel', 'travel', Travel::class)
                 ->rules('required'),
 
-            BelongsTo::make('airport')
+            BelongsTo::make('Airport', 'airport', Airport::class)
                 ->rules('required'),
 
             Select::make('weekday')

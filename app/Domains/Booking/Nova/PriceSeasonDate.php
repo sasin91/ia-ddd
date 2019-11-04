@@ -2,12 +2,13 @@
 
 namespace App\Domains\Booking\Nova;
 
+use App\Nova\Resource;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\ID;
 
-class PriceSeasonDate
+class PriceSeasonDate extends Resource
 {
     /**
      * The logical group associated with the resource.
@@ -34,11 +35,11 @@ class PriceSeasonDate
         return [
             ID::make()->sortable(),
 
-            BelongsTo::make('season')->rules('required'),
+            BelongsTo::make('Season', 'season', PriceSeason::class)->rules('required'),
 
-            Date::make('starts_at')->rules('required'),
+            Date::make('Starts', 'starts_at')->rules('required'),
 
-            Date::make('ends_At')->rules('required')
+            Date::make('Ends', 'ends_at')->rules('required')
         ];
     }
 }

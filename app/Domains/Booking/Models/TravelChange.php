@@ -28,7 +28,7 @@ class TravelChange extends Model
      *
      * @return  BelongsTo
      */
-    public function departure()
+    public function travel()
     {
         return $this->belongsTo(Travel::class, 'flight_number');
     }

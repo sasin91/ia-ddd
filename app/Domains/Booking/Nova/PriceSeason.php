@@ -52,9 +52,9 @@ class PriceSeason extends Resource
         return [
             ID::make()->sortable(),
 
-            Text::make('name')->rules('required'),
+            Text::make('Name')->rules('required'),
 
-            HasMany::make('dates')
+            HasMany::make('Dates', 'dates', PriceSeasonDate::class)
         ];
     }
 }
