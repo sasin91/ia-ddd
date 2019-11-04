@@ -75,6 +75,16 @@ class TicketPrice extends Model
     }
 
     /**
+     * The travel this price is associated with
+     *
+     * @return BelongsTo
+     */
+    public function travel(): BelongsTo
+    {
+        return $this->belongsTo(Travel::class);
+    }
+
+    /**
      * The price season
      *
      * @return BelongsTo
@@ -82,5 +92,15 @@ class TicketPrice extends Model
     public function season(): BelongsTo
     {
         return $this->belongsTo(PriceSeason::class);
+    }
+
+    /**
+     * The age group
+     *
+     * @return BelongsTo
+     */
+    public function ageGroup(): BelongsTo
+    {
+        return $this->belongsTo(AgeGroup::class);
     }
 }

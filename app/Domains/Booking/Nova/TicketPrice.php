@@ -65,19 +65,19 @@ class TicketPrice extends Resource
         return [
             ID::make()->sortable(),
 
-            BelongsTo::make('departure'),
+            BelongsTo::make('Travel', 'travel', Travel::class),
 
-            BelongsTo::make('season'),
+            BelongsTo::make('Season', 'season', PriceSeason::class),
 
-            BelongsTo::make('ageGroup'),
+            BelongsTo::make('Age Group', 'ageGroup', AgeGroup::class),
 
-            Select::make('ticket_period')
+            Select::make('Period', 'ticket_period')
                 ->options(TravelPeriod::toSelectArray()),
 
-            Select::make('currency')
+            Select::make('Currency', 'currency')
                 ->options(config('currency.supported')),
 
-            Currency::make('amount')
+            Currency::make('Amount', 'amount')
         ];
     }
 }
