@@ -6,7 +6,7 @@ services:
       dockerfile: Dockerfile
     image: vessel/app
     ports:
-     - "${APP_PORT}:80"
+     - "${DOCKER_APP_PORT}:80"
     environment:
       CONTAINER_ENV: "${APP_ENV}"
       XDEBUG_HOST: "${XDEBUG_HOST}"
@@ -30,7 +30,7 @@ services:
   mysql:
     image: mysql:8
     ports:
-     - "${DB_PORT}:3306"
+     - "${DOCKER_MYSQL_PORT}:3306"
     environment:
       MYSQL_ROOT_PASSWORD: "${DB_PASSWORD}"
       MYSQL_DATABASE: "${DB_DATABASE}"
