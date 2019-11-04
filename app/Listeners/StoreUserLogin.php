@@ -9,7 +9,7 @@ class StoreUserLogin
 {
     public function handle(Authenticated $event)
     {
-        $event->user->logins()->create([
+        $event->user->logins()->createdToday()->firstOrCreate([
             'ip_address' => Request::ip(),
             'user_agent' => Request::userAgent()
         ]);
