@@ -5,6 +5,8 @@ namespace App\Domains\Booking\Nova;
 use App\Domains\Booking\Enums\Citizenship;
 use App\Domains\Booking\Enums\Nationality;
 use App\Nova\Resource;
+use App\Nova\User;
+use Dniccum\PhoneNumber\PhoneNumber;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Country;
@@ -60,16 +62,18 @@ class Passenger extends Resource
         return [
             ID::make()->sortable(),
 
-            BelongsTo::make('creator')
+            BelongsTo::make('Creator', 'creator', User::class)
+                ->nullable()
                 ->sortable()
                 ->searchable(),
 
-            BelongsTo::make('ageGroup')
+            BelongsTo::make('Age Group', 'ageGroup', AgeGroup::class)
                 ->sortable()
                 ->searchable(),
 
-            Text::make(__('Title'), 'title')
+            Select::make(__('Title'), 'title')
                 ->rules('string', 'required')
+                ->options(['Mr', 'Mrs', 'Mstr', 'Miss'])
                 ->sortable()
                 ->hideFromIndex(),
 
@@ -77,20 +81,21 @@ class Passenger extends Resource
                 ->rules('required', 'string')
                 ->sortable(),
 
-            Text::make(__('Middle name'), 'middle_name')
-                ->rules('nullable', 'string')
-                ->sortable(),
-
             Text::make(__('Last name'), 'last_name')
                 ->rules('required', 'string')
                 ->sortable(),
 
-            Text::make(__('Gender'), 'gender')
+            Select::make(__('Gender'), 'gender')
+                ->options(['Male', 'Female'])
                 ->rules('required', 'string')
                 ->sortable(),
 
-            Number::make(__('Phone'), 'phone')
-                ->rules('numeric', 'required')
+            PhoneNumber::make(__('Phone'), 'phone')
+//                ->countries(['DK', 'SWE', 'NO', 'UK', 'IQ'])
+//                ->country('AUTO')
+                ->disableValidation()
+                ->format('### ########')
+                ->rules('string', 'required')
                 ->sortable(),
 
             Select::make(__('Nationality'), 'nationality')
@@ -104,7 +109,7 @@ class Passenger extends Resource
                 ->hideFromIndex(),
 
             Date::make(__('Birth date'), 'birthdate')
-                ->rules('required_with:visa', 'date')
+                ->rules('required', 'date')
                 ->hideFromIndex(),
 
             Text::make(__('Passport'), 'passport')
@@ -120,15 +125,11 @@ class Passenger extends Resource
                 ->hideFromIndex(),
 
             Date::make(__('Passport expiration date'), 'passport_expires_at')
-                ->rules('required_with:passport', 'nullable', 'date')
+                ->rules('required_with:passport', 'nullable', 'date', 'after_or_equal:+6 months')
                 ->hideFromIndex(),
 
             Date::make(__('VISA expiration date'), 'visa_expires_at')
-                ->rules('required_with:visa', 'nullable', 'date')
-                ->hideFromIndex(),
-
-            Date::make(__('VISA issue date'), 'visa_issued_at')
-                ->rules('required_with:visa_expires_at', 'nullable', 'date')
+                ->rules('required_with:visa', 'nullable', 'date', 'after_or_equal:+6 months')
                 ->hideFromIndex(),
 
             HasMany::make('tickets')

@@ -21,7 +21,6 @@ class Passenger extends Model
         'age_group_id',
         'title',
         'first_name',
-        'middle_name',
         'last_name',
         'gender',
         'phone',
@@ -34,14 +33,12 @@ class Passenger extends Model
         'passport_issued_at',
         'passport_expires_at',
         'visa_expires_at',
-        'visa_issued_at'
     ];
 
     protected $casts = [
         'passport_expires_at' => 'datetime',
         'passport_issued_at' => 'datetime',
         'visa_expires_at' => 'datetime',
-        'visa_issued_at' => 'datetime',
         'birthdate' => 'date',
     ];
 
