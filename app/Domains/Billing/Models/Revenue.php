@@ -25,6 +25,7 @@ use function blank;
 use function event;
 use function points_for;
 use DateTimeInterface;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 /**
  * Class Revenue
@@ -183,7 +184,7 @@ class Revenue extends Model
         event(
             new PointsEarned(
                 $this->account->uuid,
-                $this->points_earned,
+                $this->earned_points,
                 static::class,
                 $this->getKey()
             )

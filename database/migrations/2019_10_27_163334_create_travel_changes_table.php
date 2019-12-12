@@ -16,6 +16,7 @@ class CreateTravelChangesTable extends Migration
         Schema::create('travel_changes', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('flight_number');
+            $table->foreign('flight_number')->references('flight_number')->on('travels');
             $table->timestamp('departs_at');
             $table->json('modifications');
             $table->softDeletes();

@@ -30,7 +30,11 @@ class BillingMethod
     {
         $app = $app ?? app();
 
-        static::$discovered = FileIndex::scan('Domains/Billing/Methods')->each(function ($billingMethod) use ($app) {
+        static::$discovered = FileIndex::scan('Domains/Billing/Methods')
+        ->filter(function ($file) {
+            return in_array(BillingMethodContract::class, class_implements($file->class));
+        })
+        ->each(function ($billingMethod) use ($app) {
             $app->singleton($billingMethod->class);
         });
     }
@@ -46,6 +50,18 @@ class BillingMethod
     {
         return static::$discovered->map(function ($billingMethod) {
             return [$billingMethod->name => $billingMethod->name];
+        })->toArray();
+    }
+
+    /**
+     * Get all the discovered billing method names
+     *
+     * @return array
+     */
+    public static function all(): array
+    {
+        return static::$discovered->map(function ($billingMethod) {
+            return $billingMethod->name;
         })->toArray();
     }
 

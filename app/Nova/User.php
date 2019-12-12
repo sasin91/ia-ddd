@@ -4,17 +4,20 @@ namespace App\Nova;
 
 use App\Domains\Agent\Nova\Account;
 use App\Domains\Agent\Nova\Agency;
-use App\Domains\Booking\Nova\Booking;
+use App\Domains\Booking\Nova\Ticket;
 use App\Domains\Booking\Nova\Passenger;
 use App\Domains\Booking\Nova\TicketChange;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Avatar;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Country;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\MorphToMany;
 use Laravel\Nova\Fields\Password;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Http\Requests\NovaRequest;
 use Vyuldashev\NovaPermission\Permission;
 use Vyuldashev\NovaPermission\Role;
 
@@ -49,6 +52,30 @@ class User extends Resource
     public static $search = [
         'id', 'name', 'email', 'country'
     ];
+
+    /**
+     * Build an "index" query for the given resource.
+     *
+     * @param  NovaRequest  $request
+     * @param Builder  $query
+     * @return Builder
+     */
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        return $query->withLastLogin();
+    }
+
+    /**
+     * Build a "detail" query for the given resource.
+     *
+     * @param  NovaRequest  $request
+     * @param  Builder  $query
+     * @return Builder
+     */
+    public static function detailQuery(NovaRequest $request, $query)
+    {
+        return parent::detailQuery($request, $query)->withLastLogin();
+    }
 
     /**
      * Get the fields displayed by the resource.
@@ -86,10 +113,12 @@ class User extends Resource
                 ->creationRules('required', 'string', 'min:8')
                 ->updateRules('nullable', 'string', 'min:8'),
 
+            BelongsTo::make('Login', 'lastLogin', Login::class),
+
             MorphToMany::make('Roles', 'roles', Role::class),
             MorphToMany::make('Permissions', 'permissions', Permission::class),
 
-            HasMany::make('Bookings', 'bookings', Booking::class)->onlyOnDetail(),
+            HasMany::make('Bookings', 'bookings', Ticket::class)->onlyOnDetail(),
             HasMany::make('Requested Changes', 'requestedChanges', TicketChange::class)->onlyOnDetail(),
             HasMany::make('Handled Changes', 'handledChanges', TicketChange::class)->onlyOnDetail(),
             HasMany::make('Passengers', 'passengers', Passenger::class)->onlyOnDetail(),

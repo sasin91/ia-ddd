@@ -31,7 +31,7 @@ class WithdrawFailed extends RuntimeException
     {
         return new static(
             sprintf(
-                "%i is not sufficient to withdraw %i",
+                "%d is not sufficient to withdraw %d",
                 data_get($ledger, 'balance', 0),
                 $amount
             )

@@ -56,6 +56,8 @@ class TicketChange extends Resource
 
             BelongsTo::make('Ticket', 'ticket', Ticket::class),
 
+            BelongsTo::make('Trip', 'trip', Trip::class),
+
             Currency::make('Fee'),
 
             Currency::make('Cost'),

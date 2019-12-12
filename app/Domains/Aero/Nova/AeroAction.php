@@ -3,14 +3,17 @@
 
 namespace App\Domains\Aero\Nova;
 
-
-use App\Domains\Booking\Nova\Ticket;
+use App\Domains\Aero\Enums\AeroActionType;
+use App\Domains\Booking\Nova\Trip;
 use App\Nova\Resource;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
+use SimpleSquid\Nova\Fields\Enum\Enum;
+
 use function __;
 
 class AeroAction extends Resource
@@ -48,20 +51,24 @@ class AeroAction extends Resource
     public function fields(Request $request)
     {
         return [
-            ID::make('id')->sortable(),
+            ID::make()->sortable(),
 
-            BelongsTo::make('Ticket', 'ticket', Ticket::class),
+            BelongsTo::make('Ticket', 'ticket', Trip::class),
 
-            BelongsTo::make('Aero', 'aero', Aero::class),
+            BelongsTo::make(Aero::label(), 'aero', Aero::class),
 
-            Text::make('Command'),
+            Enum::make('Type')
+                ->attachEnum(AeroActionType::class),
 
-            Text::make('e_ticket', 'E-Ticket'),
+            Text::make('Command')
+                ->hideFromIndex(),
 
-            Number::make('Tax'),
+            Text::make('E-Ticket', 'e_ticket')
+                ->hideFromIndex(),
 
-            Number::make('Price')
+            Currency::make('Tax'),
+
+            Currency::make('Price')
         ];
     }
-
 }

@@ -14,6 +14,8 @@ use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
+use SimpleSquid\Nova\Fields\Enum\Enum;
+
 use function config;
 
 class Expense extends Resource
@@ -61,30 +63,30 @@ class Expense extends Resource
 
             BelongsTo::make('Account', 'account', Account::class),
 
-            BelongsTo::make('Revenue', 'revenue', Revenue::class),
+            BelongsTo::make('Revenue', 'revenue', Revenue::class)->nullable(),
 
             Text::make('Email', 'customer_email')->rules('email'),
 
-            Currency::make('amount'),
+            Currency::make('Amount'. 'amount'),
 
-            Number::make('points'),
+            Number::make('Points', 'points'),
 
-            Number::make('exchange_rate'),
+            Number::make('Exchange Rate', 'exchange_rate'),
 
-            Select::make('currency_code')
+            Select::make('Currency', 'currency_code')
                 ->options(config('currency.supported')),
 
-            Text::make('description'),
+            Text::make('Description', 'description'),
 
-            Select::make('category')
-                ->options(ExpenseCategory::toSelectArray()),
+            Enum::make('Category', 'category')
+                ->attachEnum(ExpenseCategory::class),
 
-            Select::make('billing_method')
+            Select::make('Method', 'billing_method')
                 ->options(BillingMethod::toSelectArray()),
 
-            Text::make('reference'),
+            Text::make('Reference', 'reference'),
 
-            DateTime::make('paid_at')
+            DateTime::make('Paid', 'paid_at')
         ];
     }
 }

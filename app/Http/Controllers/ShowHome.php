@@ -11,7 +11,7 @@ class ShowHome extends Controller
     {
         return Inertia::render('Home')->with(
             'user',
-            $request->user()->loadMissing('latestBookings', 'latestRequestedChanges', 'agencies', 'accounts')
+            $request->user()->loadMissing('latestTickets', 'latestRequestedChanges', 'agencies', 'accounts')
         );
     }
 }

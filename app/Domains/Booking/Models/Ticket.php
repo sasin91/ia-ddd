@@ -2,143 +2,152 @@
 
 namespace App\Domains\Booking\Models;
 
-use App\Domains\Aero\Models\AeroAction;
+use App\Domains\Billing\Models\Invoice;
+use App\Domains\Billing\Models\Transaction;
 use App\Domains\Booking\Contracts\Changeable;
-use App\Domains\Booking\Enums\TravelClass;
-use App\Domains\Booking\Enums\TravelPeriod;
+use App\Domains\Booking\Models\Concerns\SendsDocuments;
 use App\Domains\Booking\Models\Concerns\Serviceable;
-use BenSampo\Enum\Traits\CastsEnums;
+use App\Domains\Booking\Models\Concerns\Voidable;
+use App\User;
 use DateTimeInterface;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use function abs;
-use function in_array;
-use function with;
+use Illuminate\Support\Facades\URL;
+use function filled;
 
 /**
  * Class Ticket
- * @package App\Domains\Booking\Models
+ * @note PNR aka. Booking reference
  *
- * @property string $outward_flight_number
- * @property DateTimeInterface $outward_departure_datetime
- * @property DateTimeInterface outward_arrival_datetime
- * @property string $home_flight_number
- * @property DateTimeInterface|null $home_departure_datetime
- * @property DateTimeInterface|null $home_arrival_datetime
- * @property TravelPeriod|string $travel_period
- * @property TravelClass|string $travel_class
- * @property-read TicketPrice $price
- * @property-read Booking $booking
- * @property-read Passenger $passenger
- * @property-read Travel $outwardTravel
- * @property-read Travel|null $homeTravel
+ * @property string $PNR
+ * @property string $buyer_email
+ * @property integer $buyer_id
+ * @property boolean $express
+ * @property integer $total_cost
+ * @property integer $transaction_id
+ * @property DateTimeInterface|null $voided_at
+ * @property DateTimeInterface|null $documents_sent_at
+ * @property-read Collection $trips
+ * @property-read Collection $ticketServices
+ * @property-read Collection $ticketPrices
+ * @property-read Collection $ticketChanges
+ * @property-read User|null $buyer
+ * @property-read Invoice|null $transaction
+ *
+ * @method static Builder express(bool $value = true)
+ * @method static Builder reserved($date = null)
+ * @method static Builder purchased($date = null)
+ * @method static Builder voided($date = null)
+ * @method static Builder unvoided($date = null)
  */
 class Ticket extends Model implements Changeable
 {
-    const CHANGE_FEE = 600;
-
-    use CastsEnums, Serviceable, SoftDeletes;
+    use Serviceable, SendsDocuments, SoftDeletes, Voidable;
 
     protected $fillable = [
-        'outward_flight_number',
-        'outward_departure_datetime',
-        'outward_arrival_datetime',
-
-        'home_flight_number',
-        'home_departure_datetime',
-        'home_arrival_datetime',
-
-        'travel_period',
-        'travel_class',
-
-        'price_id',
-        'booking_id',
-        'passenger_id'
+        'PNR',
+        'buyer_email',
+        'buyer_id',
+        'express',
+        'total_cost',
+        'voided_at',
+        'documents_sent_at'
     ];
 
     protected $casts = [
-        'outward_departure_datetime' => 'datetime',
-        'outward_arrival_datetime' => 'datetime',
-
-        'home_departure_datetime' => 'datetime',
-        'home_arrival_datetime' => 'datetime',
-    ];
-
-    public $enumCasts = [
-        'travel_period' => TravelPeriod::class,
-        'travel_class' => TravelClass::class
+        'buyer_id' => 'integer',
+        'express' => 'boolean',
+        'voided_at' => 'datetime',
+        'documents_sent_at' => 'datetime'
     ];
 
     /**
-     * The outward travel
+     * Get the refunded bookings
      *
-     * @return BelongsTo
+     * @param Builder $query
+     * @return Builder
      */
-    public function outwardTravel(): BelongsTo
+    public function scopeRefunded($query)
     {
-        return $this->belongsTo(Travel::class, 'outward_flight_number', 'flight_number');
+        return $query->has('refunds');
     }
 
     /**
-     * The home travel
-     *
-     * @return BelongsTo
-     */
-    public function homeTravel(): BelongsTo
-    {
-        return $this->belongsTo(Travel::class, 'home_flight_number', 'flight_number');
-    }
-
-    /**
-     * The booking this ticket is a part of.
-     *
-     * @return BelongsTo
-     */
-    public function booking(): BelongsTo
-    {
-        return $this->belongsTo(Booking::class);
-    }
-
-    /**
-     * The passenger that's traveling with this ticket.
-     *
-     * @return BelongsTo
-     */
-    public function passenger(): BelongsTo
-    {
-        return $this->belongsTo(Passenger::class);
-    }
-
-    /**
-     * The price for this ticket
-     *
-     * @return BelongsTo
-     */
-    public function price(): BelongsTo
-    {
-        return $this->belongsTo(TicketPrice::class);
-    }
-
-    /**
-     * The commands that's been executed in the aero terminal
+     * The booked tickets.
      *
      * @return HasMany
      */
-    public function aeroActions(): HasMany
+    public function trips(): HasMany
     {
-        return $this->hasMany(AeroAction::class);
+        return $this->hasMany(Trip::class, 'PNR', 'PNR');
     }
 
     /**
-     * The ticket changes that has been made to this ticket
+     * Get the services attached to trips.
+     * eg. Handicap support
+     *
+     * @return HasManyThrough
+     */
+    public function tripServices(): HasManyThrough
+    {
+        return $this->hasManyThrough(TripService::class, Trip::class);
+    }
+
+    /**
+     * The prices of the booked tickets
+     *
+     * @return HasManyThrough
+     */
+    public function ticketPrices(): HasManyThrough
+    {
+        return $this->hasManyThrough(Price::class, Trip::class, 'PNR', 'PNR', 'id', 'price_id');
+    }
+
+    /**
+     * Get all the ticket changes
      *
      * @return HasMany
      */
     public function ticketChanges(): HasMany
     {
         return $this->hasMany(TicketChange::class);
+    }
+
+    /**
+     * The buyer, typically an agent user.
+     *
+     * @return BelongsTo
+     */
+    public function buyer(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'buyer_id');
+    }
+
+    /**
+     * The transaction(s) made in relation to this booking
+     *
+     * @return MorphMany
+     */
+    public function transactions(): MorphMany
+    {
+        return $this->morphMany(Transaction::class, 'product');
+    }
+
+    public function getSignedLinkAttribute(): string
+    {
+        return URL::signedRoute('tickets.show', ['ticket' => $this]);
+    }
+
+    public function isPurchased(): bool
+    {
+        return filled($this->purchased_at);
     }
 
     /**
@@ -149,17 +158,9 @@ class Ticket extends Model implements Changeable
      */
     public function determineChangeCost(array $changes): int
     {
-        $fee = in_array($this->ticketChanges()->count(), [0,1]) ? static::CHANGE_FEE : 0;
-
-        $cost = with($this->replicate()->applyChanges($changes), function (Ticket $changedTicket) {
-            if ($this->period->isNot($changedTicket->period)) {
-                return $changedTicket->price->amount;
-            }
-
-            return 0;
+        return $this->trips->sum(function (Trip $trip) use ($changes) {
+            return $trip->determineChangeCost($changes);
         });
-
-        return abs($fee + $cost);
     }
 
     /**
@@ -170,19 +171,7 @@ class Ticket extends Model implements Changeable
      */
     public function applyChanges(array $changes): Changeable
     {
-        $this->fill($changes);
-
-        if ($this->period->isNot(TravelPeriod::FLEX)) {
-            $ticketPeriod = TravelPeriod::forTicket($this);
-
-            if ($this->period->isNot($ticketPeriod)) {
-                $this->period = $ticketPeriod;
-
-                $this->price()->associate(
-                    TicketPrice::forOutwardTicket($this)->first()
-                );
-            }
-        }
+        $this->trips->each->applyChanges($changes);
 
         return $this;
     }

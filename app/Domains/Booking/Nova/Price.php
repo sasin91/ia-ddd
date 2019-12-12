@@ -2,7 +2,7 @@
 
 namespace App\Domains\Booking\Nova;
 
-use App\Domains\Booking\Enums\TravelPeriod;
+use App\Domains\Booking\Enums\TripType;
 use App\Nova\Resource;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
@@ -11,7 +11,7 @@ use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Select;
 use function config;
 
-class TicketPrice extends Resource
+class Price extends Resource
 {
     /**
      * The logical group associated with the resource.
@@ -33,7 +33,7 @@ class TicketPrice extends Resource
      *
      * @var string
      */
-    public static $model = \App\Domains\Booking\Models\TicketPrice::class;
+    public static $model = \App\Domains\Booking\Models\Price::class;
 
     /**
      * The columns that should be searched.
@@ -41,7 +41,7 @@ class TicketPrice extends Resource
      * @var array
      */
     public static $search = [
-        'ticket_period', 'currency'
+        'type', 'currency'
     ];
 
     /**
@@ -51,7 +51,7 @@ class TicketPrice extends Resource
      */
     public function title()
     {
-        return "[{$this->season->name} {$this->ticket_period}]: {$this->amount} {$this->currency}";
+        return "[{$this->season->name} {$this->type}]: {$this->amount} {$this->currency}";
     }
 
     /**
@@ -71,8 +71,8 @@ class TicketPrice extends Resource
 
             BelongsTo::make('Age Group', 'ageGroup', AgeGroup::class),
 
-            Select::make('Period', 'ticket_period')
-                ->options(TravelPeriod::toSelectArray()),
+            Select::make('Period', 'type')
+                ->options(TripType::toSelectArray()),
 
             Select::make('Currency', 'currency')
                 ->options(config('currency.supported')),

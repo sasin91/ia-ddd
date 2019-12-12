@@ -2,7 +2,7 @@
 
 namespace App\Domains\Booking\Models\Concerns;
 
-use App\Domains\Booking\Models\Booking;
+use App\Domains\Booking\Models\Ticket;
 use DateTimeInterface;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -30,7 +30,7 @@ trait Voidable
     }
 
     /**
-     * Get the bookings that have not been voided.
+     * Get the tickets that have not been voided.
      *
      * @param Builder $query
      *
@@ -44,11 +44,11 @@ trait Voidable
     }
 
     /**
-     * Mark the booking as voided.
+     * Mark the tickets as voided.
      *
-     * @return Booking
+     * @return Ticket
      */
-    public function markAsVoided(): Booking
+    public function markAsVoided(): Ticket
     {
         return tap($this)->update(['voided_at' => $this->freshTimestamp()]);
     }

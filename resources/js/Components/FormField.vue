@@ -46,7 +46,7 @@
             },
 
             inputClasses() {
-                let classes = "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline";
+                let classes = "shadow appearance-none border rounded w-full py-2 px-3 bg-gray-100 text-gray-700 leading-tight focus:outline-none focus:shadow-outline";
 
                 if (this.hasErrors) {
                     classes += 'border-red-500'

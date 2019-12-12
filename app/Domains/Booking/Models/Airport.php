@@ -50,11 +50,11 @@ class Airport extends Model
 
     public function departures(): HasMany
     {
-        return $this->hasMany(Travel::class, 'departure_airport_id');
+        return $this->hasMany(Travel::class, 'departure_airport', 'IATA');
     }
 
     public function arrivals(): HasMany
     {
-        return $this->hasMany(Travel::class, 'destination_airport_id');
+        return $this->hasMany(Travel::class, 'destination_airport', 'IATA');
     }
 }

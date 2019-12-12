@@ -20,13 +20,13 @@ class Service extends Model
         'details'
     ];
 
+    public function trips(): BelongsToMany
+    {
+        return $this->belongsToMany(Trip::class)->using(TripService::class);
+    }
+
     public function tickets(): BelongsToMany
     {
         return $this->belongsToMany(Ticket::class)->using(TicketService::class);
-    }
-
-    public function bookings(): BelongsToMany
-    {
-        return $this->belongsToMany(Booking::class)->using(BookingService::class);
     }
 }

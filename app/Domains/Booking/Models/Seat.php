@@ -62,7 +62,7 @@ class Seat extends Model
 
     public function tickets()
     {
-        return $this->hasMany(Ticket::class, 'flight_number', 'flight_number');
+        return $this->hasMany(Trip::class, 'flight_number', 'flight_number');
     }
 
     /**

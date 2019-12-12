@@ -19,7 +19,7 @@ class CreateRevenuesTable extends Migration
             $table->foreign('account_id')->references('id')->on('accounts')->onDelete('SET NULL');
             $table->string('customer_email');
             $table->integer('amount');
-            $table->integer('earned_points');
+            $table->integer('earned_points')->default(0);
             $table->decimal('exchange_rate');
             $table->string('currency_code');
             $table->string('description');

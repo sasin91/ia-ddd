@@ -15,6 +15,8 @@ use Laravel\Nova\Fields\MorphMany;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
+use SimpleSquid\Nova\Fields\Enum\Enum;
+
 use function config;
 
 class Revenue extends Resource
@@ -34,13 +36,6 @@ class Revenue extends Resource
     public static $model = \App\Domains\Billing\Models\Revenue::class;
 
     /**
-     * The single value that should be used to represent the resource when being displayed.
-     *
-     * @var string
-     */
-    public static $title = 'category';
-
-    /**
      * The columns that should be searched.
      *
      * @var array
@@ -48,6 +43,17 @@ class Revenue extends Resource
     public static $search = [
         'category', 'customer_email', 'reference'
     ];
+
+    /**
+     * Get the value that should be displayed to represent the resource.
+     *
+     * @return string
+     */
+    public function title()
+    {
+        return "{$this->category->description} [{$this->id}]";
+    }
+
 
     /**
      * Get the fields displayed by the resource.
@@ -77,8 +83,8 @@ class Revenue extends Resource
 
             Text::make('description'),
 
-            Select::make('category')
-                ->options(RevenueCategory::toSelectArray()),
+            Enum::make('category')
+                ->attachEnum(RevenueCategory::class),
 
             Select::make('billing_method')
                 ->options(BillingMethod::toSelectArray()),

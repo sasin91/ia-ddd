@@ -16,16 +16,19 @@ class CreateTravelsTable extends Migration
     {
         Schema::create('travels', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('flight_number');
+            $table->string('flight_number')->unique();
             $table->string('travel_class')->default(TravelClass::ECONOMY);
-            $table->unsignedBigInteger('departure_airport_id');
-            $table->foreign('departure_airport_id')->references('id')->on('airports');
-            $table->unsignedBigInteger('destination_airport_id');
-            $table->foreign('destination_airport_id')->references('id')->on('airports');
+            $table->string('departure_airport');
+            $table->foreign('departure_airport')->references('IATA')->on('airports');
+            $table->string('destination_airport');
+            $table->foreign('destination_airport')->references('IATA')->on('airports');
             $table->integer('default_seats')->default(159);
             $table->timestamp('open_until')->nullable();
             $table->timestamps();
             $table->softDeletes();
+
+            $table->index('flight_number');
+            $table->index(['departure_airport', 'destination_airport']);
         });
     }
 

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTicketsTable extends Migration
+class CreateTripsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,20 +13,22 @@ class CreateTicketsTable extends Migration
      */
     public function up()
     {
-        Schema::create('tickets', function (Blueprint $table) {
+        Schema::create('trips', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('outward_flight_number');
+            $table->string('outward_travel');
+            $table->foreign('outward_travel')->references('flight_number')->on('travels');
             $table->dateTimeTz('outward_departure_datetime');
             $table->dateTimeTz('outward_arrival_datetime');
-            $table->string('home_flight_number')->nullable();
+            $table->string('home_travel')->nullable();
+            $table->foreign('home_travel')->references('flight_number')->on('travels');
             $table->dateTimeTz('home_departure_datetime')->nullable();
             $table->dateTimeTz('home_arrival_datetime')->nullable();
-            $table->string('travel_period');
+            $table->string('type');
             $table->string('travel_class');
             $table->unsignedBigInteger('price_id');
-            $table->foreign('price_id')->references('id')->on('ticket_prices')->onDelete('cascade');
-            $table->unsignedBigInteger('booking_id');
-            $table->foreign('booking_id')->references('id')->on('bookings')->onDelete('cascade');
+            $table->foreign('price_id')->references('id')->on('prices')->onDelete('cascade');
+            $table->string('PNR');
+            $table->foreign('PNR')->references('PNR')->on('tickets')->onDelete('cascade');
             $table->unsignedBigInteger('passenger_id');
             $table->foreign('passenger_id')->references('id')->on('passengers')->onDelete('cascade');
             $table->softDeletes();
@@ -41,6 +43,6 @@ class CreateTicketsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tickets');
+        Schema::dropIfExists('trips');
     }
 }

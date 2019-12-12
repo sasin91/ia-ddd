@@ -1,5 +1,9 @@
 <?php
 
+use App\Domains\Booking\Controllers\SelectAirports;
+use App\Domains\Booking\Controllers\BookTicketsController;
+use App\Domains\Booking\Controllers\ShowTicket;
+use App\Domains\Booking\Controllers\SelectTravels;
 use App\Http\Controllers\Auth\ConfirmPasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
@@ -8,7 +12,6 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\ShowHome;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,17 +24,8 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', static function () {
-    return Inertia::render('Welcome');
-});
-
-Route::get('/about', static function () {
-    return Inertia::render('About');
-});
-
-Route::get('/contact', static function () {
-    return Inertia::render('Contact');
-});
+Route::get('/', SelectAirports::class)->name('booking.index');
+Route::get('/book/{departure}/{destination}', SelectTravels::class)->name('booking.travels.show');
 
 Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('login', [LoginController::class, 'login']);
@@ -50,3 +44,5 @@ Route::get('email/verify/{id}/{hash}', [VerificationController::class, 'verify']
 Route::post('email/resend', [VerificationController::class, 'resend'])->name('verification.resend');
 
 Route::middleware('auth')->get('/home', ShowHome::class);
+
+Route::get('tickets/{PNR}', ShowTicket::class)->name('tickets.show');

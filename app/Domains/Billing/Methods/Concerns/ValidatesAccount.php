@@ -17,7 +17,8 @@ trait ValidatesAccount
     {
         throw_unless(
             $account instanceof Account,
-            InvalidArgumentException::class
+            InvalidArgumentException::class,
+            "Invalid Account."
         );
     }
 }

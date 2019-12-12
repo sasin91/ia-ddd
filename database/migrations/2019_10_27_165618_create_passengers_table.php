@@ -21,13 +21,12 @@ class CreatePassengersTable extends Migration
 
             $table->string('phone')->nullable();
             $table->string('title')->nullable();
-            $table->string('first_name');
-            $table->string('last_name');
+            $table->string('name');
             $table->string('gender');
             $table->date('birthdate')->nullable();
 
-            $table->unsignedInteger('age_group_id')->nullable();
-            $table->foreign('age_group_id')->references('id')->on('age_groups');
+            $table->string('age_group');
+            $table->foreign('age_group')->references('name')->on('age_groups');
 
             $table->string('nationality')->nullable();
             $table->string('citizenship')->nullable();

@@ -2,7 +2,12 @@
 
 namespace App\Domains\Booking\Models;
 
+use App\Domains\Booking\Enums\Citizenship;
+use App\Domains\Booking\Enums\Nationality;
+use App\Domains\Booking\Enums\PassengerGender;
+use App\Domains\Booking\Enums\PassengerTitle;
 use App\User;
+use BenSampo\Enum\Traits\CastsEnums;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -14,14 +19,13 @@ use function explode;
 
 class Passenger extends Model
 {
-    use SoftDeletes;
+    use CastsEnums, SoftDeletes;
 
     protected $fillable = [
         'creator_id',
-        'age_group_id',
+        'age_group',
         'title',
-        'first_name',
-        'last_name',
+        'name',
         'gender',
         'phone',
         'birthdate',
@@ -30,16 +34,21 @@ class Passenger extends Model
         'passport',
         'visa',
         'visa_country',
-        'passport_issued_at',
         'passport_expires_at',
         'visa_expires_at',
     ];
 
     protected $casts = [
         'passport_expires_at' => 'datetime',
-        'passport_issued_at' => 'datetime',
         'visa_expires_at' => 'datetime',
         'birthdate' => 'date',
+    ];
+
+    public $enumCasts = [
+        'title' => PassengerTitle::class,
+        'gender' => PassengerGender::class,
+        'nationality' => Nationality::class,
+        'citizenship' => Citizenship::class
     ];
 
     /**
@@ -59,7 +68,7 @@ class Passenger extends Model
      */
     public function ageGroup(): BelongsTo
     {
-        return $this->belongsTo(AgeGroup::class);
+        return $this->belongsTo(AgeGroup::class, 'age_group', 'name');
     }
 
     /**
@@ -69,27 +78,7 @@ class Passenger extends Model
      */
     public function tickets(): HasMany
     {
-        return $this->hasMany(Ticket::class);
-    }
-
-    /**
-     * Allows setting the full_name attribute.
-     *
-     * @example "John Jeremia Doe" => (first_name = John, middle_name = Jeremia, last_name = Doe)
-     * @param string $value
-     */
-    public function setFullNameAttribute($value)
-    {
-        $fragments = explode(' ', $value);
-
-        $this->setAttribute('first_name', $fragments[0]);
-
-        if (count($fragments) === 2) {
-            $this->setAttribute('last_name', $fragments[1]);
-        } else {
-            $this->setAttribute('middle_name', $fragments[1]);
-            $this->setAttribute('last_name', $fragments[2]);
-        }
+        return $this->hasMany(Trip::class);
     }
 
     /**
@@ -99,7 +88,7 @@ class Passenger extends Model
      */
     public function getFullNameAttribute(): string
     {
-        return "{$this->title} {$this->first_name} {$this->middle_name} {$this->last_name}";
+        return "{$this->title} {$this->name}";
     }
 
     /**

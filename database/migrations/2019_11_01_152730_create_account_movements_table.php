@@ -17,8 +17,7 @@ class CreateAccountMovementsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('account_ledger_id');
             $table->foreign('account_ledger_id')->references('id')->on('account_ledgers')->onDelete('cascade');
-            $table->unsignedBigInteger('stored_event_id');
-            $table->foreign('stored_event_id')->references('id')->on('stored_events'); // Fail if attempt deleting stored event; should never happen.
+            $table->morphs('stored_event');
             $table->nullableMorphs('causer');
             $table->decimal('amount');
             $table->decimal('exchange_rate');

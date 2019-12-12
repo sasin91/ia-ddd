@@ -1,6 +1,11 @@
 <?php
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
+
+use App\Domains\Agent\Enums\AccountType;
+use App\Domains\Agent\Events\CreateAccount;
+use App\Domains\Agent\Models\Account;
+use App\Domains\Agent\Models\Agency;
 use App\User;
 use Faker\Generator as Faker;
 use Illuminate\Support\Str;
@@ -24,4 +29,17 @@ $factory->define(User::class, function (Faker $faker) {
         'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
         'remember_token' => Str::random(10),
     ];
+});
+
+$factory->state(User::class, 'agent', []);
+$factory->afterCreatingState(User::class, 'agent', function (User $user) {
+    $user->assignRole('Agent');
+
+    $agency = factory(Agency::class)->create(['owner_id' => $user->id]);
+
+    Account::createThroughEventProjector([
+        'owner_id' => $user->id,
+        'agency_id' => $agency->id,
+        'type' => AccountType::MAIN
+    ]);
 });

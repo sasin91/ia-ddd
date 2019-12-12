@@ -2,24 +2,28 @@
 
 namespace App\Domains\Agent\Models;
 
-use App\Domains\Agent\Enums\AccountType;
-use App\Domains\Agent\Events\CreateAccount;
+use Throwable;
 use App\User;
-use BenSampo\Enum\Traits\CastsEnums;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Ramsey\Uuid\Uuid;
 use function config;
+use Ramsey\Uuid\Uuid;
 use function data_get;
+use BenSampo\Enum\Traits\CastsEnums;
+use App\Domains\Billing\BillingMethod;
+use App\Domains\Billing\Models\Revenue;
+use Illuminate\Database\Eloquent\Model;
+use App\Domains\Agent\Enums\AccountType;
+use Illuminate\Database\Eloquent\Builder;
+use App\Domains\Agent\Events\CreateAccount;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 /**
  * Class Account
  * @package App
+ * @mixin Builder
  *
  * @property string $uuid
  * @property integer $owner_id
@@ -30,6 +34,7 @@ use function data_get;
  *
  * @method static Account findByEvent($event)
  * @method static Account findByUUID(string $uuid)
+ * @method static Account withBalance(?string $currency)
  * @property Collection $ledgers
  * @property User $owner
  * @property Agency|null $agency
@@ -103,7 +108,26 @@ class Account extends Model
      */
     public function scopeFindByUUID($query, string $uuid)
     {
-        return $query->where('uuid', $uuid)->firstOrFail();
+        return $query->where('uuid', $uuid)->first();
+    }
+
+    /**
+     * Include the balance amount from the Ledger on the Account
+     *
+     * @param Builder $query
+     * @param string $currency
+     * @return void
+     */
+    public function scopeWithBalance($query, string $currency): void
+    {
+        $query->addSubSelect(
+            AccountLedger::query()
+            ->select('balance')
+            ->whereColumn('account_id', 'accounts.id')
+            ->where('currency', $currency)
+            ->limit(1),
+            'balance'
+        );
     }
 
     /**
@@ -152,6 +176,52 @@ class Account extends Model
             AccountLedger::class,
             'account_id',
             'id'
+        );
+    }
+
+    /**
+     * The applicable commissions
+     *
+     * @return HasMany
+     */
+    public function commissions(): HasMany
+    {
+        return $this->hasMany(Commission::class);
+    }
+
+    /**
+     * Withdraw a given amount from the account
+     *
+     * @param integer $amount
+     * @param string $method
+     * @param string $currency
+     * @throws Throwable
+     * @return Revenue
+     */
+    public function withdraw(int $amount, $method = null, ?string $currency = null)
+    {
+        return BillingMethod::make($method ?? 'balance')->withdraw(
+            $amount,
+            $this,
+            ['currency' => $currency]
+        );
+    }
+
+    /**
+     * Deposit given amount to the account
+     *
+     * @param integer $amount
+     * @param string $method
+     * @param string $currency
+     * @throws Throwable
+     * @return Revenue
+     */
+    public function deposit(int $amount, $method = null, ?string $currency = null)
+    {
+        return BillingMethod::make($method ?? 'balance')->deposit(
+            $amount,
+            $this,
+            ['currency' => $currency]
         );
     }
 }

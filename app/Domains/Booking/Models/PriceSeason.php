@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * Class PriceSeason
  * @package App\Domains\Booking\Models
  *
- * @method static Builder coversTicket(Ticket $ticket)
+ * @method static Builder coversTicket(Trip $ticket)
  */
 class PriceSeason extends Model
 {
@@ -22,10 +22,10 @@ class PriceSeason extends Model
      * Query the seasons that covers given ticket
      *
      * @param Builder $query
-     * @param Ticket $ticket
+     * @param Trip $ticket
      * @return void
      */
-    public function scopeCoversTicket($query, Ticket $ticket): void
+    public function scopeCoversTicket($query, Trip $ticket): void
     {
         $query->whereHas('dates', function ($query) use ($ticket) {
             /** @var Builder|PriceSeasonDate $query */

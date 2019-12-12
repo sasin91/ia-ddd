@@ -2,14 +2,16 @@
 
 namespace App\Domains\Booking\Enums;
 
-use App\Domains\Booking\Models\Ticket;
+use App\Domains\Booking\Models\Trip;
 use BenSampo\Enum\Enum;
 use DateTimeInterface;
 use Illuminate\Support\Facades\Date;
+use ReflectionClass;
+
 use function in_array;
 use function is_null;
 
-final class TravelPeriod extends Enum
+final class TripType extends Enum
 {
     const ONEWAY = 'one-way';
     const FLEX   = 'flex';
@@ -32,33 +34,33 @@ final class TravelPeriod extends Enum
         self::ONE_YEAR => '> 90',
     ];
 
-    public static function forTicket(Ticket $ticket)
+    public static function forTrip(Trip $trip)
     {
-        if ($ticket->period === self::FLEX) {
+        if ($trip->type === self::FLEX) {
             return self::FLEX;
         }
 
-        if (is_null($ticket->home_flight_number)) {
+        if (is_null($trip->home_travel)) {
             return self::ONEWAY;
         }
 
         return self::forDates(
-            $ticket->outward_departure_datetime,
-            $ticket->outward_arrival_datetime
+            $trip->outward_departure_datetime,
+            $trip->outward_arrival_datetime
         );
     }
 
-    public static function forDates(DateTimeInterface $departsAt, DateTimeInterface $arrivesAt = null)
+    public static function forDates(DateTimeInterface $outwardDepartureDate, DateTimeInterface $homeDepartureDate = null)
     {
-        if (is_null($arrivesAt)) {
+        if (is_null($homeDepartureDate)) {
             return self::ONEWAY;
         }
 
-        $departsAt = Date::instance($departsAt);
-        $arrivesAt = Date::instance($arrivesAt);
+        $outwardDepartureDate = Date::instance($outwardDepartureDate);
+        $homeDepartureDate = Date::instance($homeDepartureDate);
 
-        $diffInMonths = $departsAt->diffInMonths($arrivesAt);
-        $diffInDays = $departsAt->addMonths($diffInMonths)->diffInDays($arrivesAt);
+        $diffInMonths = $outwardDepartureDate->diffInMonths($homeDepartureDate);
+        $diffInDays = $outwardDepartureDate->addMonths($diffInMonths)->diffInDays($homeDepartureDate);
 
         return self::forMonths($diffInMonths, $diffInDays);
     }
@@ -93,14 +95,22 @@ final class TravelPeriod extends Enum
         return in_array($period, static::REQUIRES_HOME);
     }
 
-    public static function toSelectArray(): array
+    /**
+     * Get all of the constants defined on the class.
+     *
+     * @return array
+     */
+    protected static function getConstants(): array
     {
-        return [
-            self::ONE_YEAR => static::getDescription(self::ONE_YEAR),
-            self::ONE_MONTH => static::getDescription(self::ONE_MONTH),
-            self::THREE_MONTHS => static::getDescription(self::THREE_MONTHS),
-            self::ONEWAY => static::getDescription(self::ONEWAY),
-            self::FLEX => static::getDescription(self::FLEX)
-        ];
+        $calledClass = get_called_class();
+
+        if (!array_key_exists($calledClass, static::$constCacheArray)) {
+            $reflect = new ReflectionClass($calledClass);
+            static::$constCacheArray[$calledClass] = array_filter($reflect->getConstants(), function ($reflectionConstant) {
+                return is_scalar($reflectionConstant);
+            });
+        }
+
+        return static::$constCacheArray[$calledClass];
     }
 }

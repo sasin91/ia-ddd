@@ -3,7 +3,8 @@
 
 namespace App\Domains\Agent\Models;
 
-use Exchanger\Contract\ExchangeRate;
+use App\Domains\Billing\Contracts\ExchangeRatePair;
+use App\Domains\Billing\ExchangeRate;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -41,21 +42,16 @@ class AccountLedger extends Model
         return $this->hasMany(AccountMovement::class);
     }
 
-    public function getCurrencyPairAttribute(): string
+    /**
+     * Get the viable exchange rate for the ledger
+     *
+     * @return ExchangeRatePair
+     */
+    public function exchangeRate(): ExchangeRatePair
     {
-        $defaultCurrency = config('currency.default');
-
-        return "{$defaultCurrency}/{$this->currency}";
-    }
-
-    public function exchangeRate(): ExchangeRate
-    {
-        if ($this->asDateTime($this->created_at)->isToday()) {
-            return Swap::latest($this->currency_pair);
-        }
-
-        return Swap::historical(
-            $this->currency_pair,
+        return ExchangeRate::find(
+            $this->currency,
+            config('currency.default'),
             $this->created_at
         );
     }

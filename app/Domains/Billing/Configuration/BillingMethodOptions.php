@@ -128,13 +128,13 @@ class BillingMethodOptions
      * @param string $currency
      * @return BillingMethodOptions
      */
-    public function setCurrencyCode(string $currency): BillingMethodOptions
+    public function setCurrencyCode(?string $currency): BillingMethodOptions
     {
         $this->currency = $currency;
         return $this;
     }
 
-    public function setCurrency(string $currency): BillingMethodOptions
+    public function setCurrency(?string $currency): BillingMethodOptions
     {
         return $this->setCurrencyCode($currency);
     }
@@ -180,7 +180,7 @@ class BillingMethodOptions
      */
     public function getExchangeRate(): ?float
     {
-        return $this->exchangeRate  ?? exchange_rate(config('currency.default'), $this->getCurrencyCode())->getValue();
+        return $this->exchangeRate  ?? exchange_rate(config('currency.default'), $this->getCurrencyCode())->value;
     }
 
     /**
@@ -234,11 +234,11 @@ class BillingMethodOptions
     }
 
     /**
-     * @return string|null
+     * @return string
      */
-    public function getDescription(): ?string
+    public function getDescription(): string
     {
-        return $this->description;
+        return (string)$this->description;
     }
 
     /**

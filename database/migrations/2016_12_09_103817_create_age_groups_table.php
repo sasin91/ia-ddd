@@ -14,13 +14,16 @@ class CreateAgeGroupsTable extends Migration
     {
         Schema::create('age_groups', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name')->nullable();
-            $table->integer('from')->nullable();
-            $table->integer('to')->nullable();
+            $table->string('name');
+            $table->integer('from');
+            $table->integer('to');
             $table->integer('luggage_limit')->default(25);
+            $table->integer('passenger_limit')->default(9);
             $table->boolean('passport_required')->default(true);
             $table->string('icon')->nullable();
             $table->string('photo')->nullable();
+
+            $table->index('name');
         });
     }
 

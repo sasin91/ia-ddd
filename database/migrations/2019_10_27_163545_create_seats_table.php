@@ -16,6 +16,7 @@ class CreateSeatsTable extends Migration
         Schema::create('seats', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('flight_number');
+            $table->foreign('flight_number')->references('flight_number')->on('travels');
             $table->timestamp('departs_at');
             $table->integer('remaining');
             $table->integer('available');

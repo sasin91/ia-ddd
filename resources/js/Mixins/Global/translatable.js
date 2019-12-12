@@ -1,3 +1,6 @@
+/**
+ * Add the __() method to all components for easy translations inside components.
+ */
 export default {
     computed: {
         translations() {

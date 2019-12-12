@@ -17,12 +17,15 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *
  * @property-read DateRangeCollection $timestamps
  * @property-read Airport $departureAirport
+ * @property string $departure_airport
  * @property-read Airport $destinationAirport
+ * @property string $destination_airport
  * @property-read Collection<Seat> $seats
  * @property-read Collection<TravelTime> $times
  * @property-read Collection<TravelChange> $changes
  * @property-read Collection<TravelCancel> $cancels
- * @property-read Collection<Ticket> $tickets
+ * @property-read Collection<TravelStopover> $stopovers
+ * @property-read Collection<Trip> $tickets
  */
 class Travel extends Model
 {
@@ -31,8 +34,8 @@ class Travel extends Model
     protected $fillable = [
         'flight_number',
         'travel_class',
-        'departure_airport_id',
-        'destination_airport_id',
+        'departure_airport',
+        'destination_airport',
         'default_seats',
         'open_until'
     ];
@@ -83,7 +86,7 @@ class Travel extends Model
      */
     public function departureAirport()
     {
-        return $this->belongsTo(Airport::class, 'departure_airport_id');
+        return $this->belongsTo(Airport::class, 'departure_airport', 'IATA');
     }
 
     /**
@@ -93,7 +96,7 @@ class Travel extends Model
      */
     public function destinationAirport()
     {
-        return $this->belongsTo(Airport::class, 'destination_airport_id');
+        return $this->belongsTo(Airport::class, 'destination_airport', 'IATA');
     }
 
     /**
@@ -153,7 +156,7 @@ class Travel extends Model
      */
     public function outwardTickets()
     {
-        return $this->hasMany(Ticket::class,'outward_flight_number', 'flight_number');
+        return $this->hasMany(Trip::class, 'outward_travel', 'flight_number');
     }
 
     /**
@@ -163,6 +166,6 @@ class Travel extends Model
      */
     public function homeTickets()
     {
-        return $this->hasMany(Ticket::class,'home_flight_number', 'flight_number');
+        return $this->hasMany(Trip::class, 'home_travel', 'flight_number');
     }
 }

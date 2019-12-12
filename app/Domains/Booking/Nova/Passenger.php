@@ -4,6 +4,8 @@ namespace App\Domains\Booking\Nova;
 
 use App\Domains\Booking\Enums\Citizenship;
 use App\Domains\Booking\Enums\Nationality;
+use App\Domains\Booking\Enums\PassengerGender;
+use App\Domains\Booking\Enums\PassengerTitle;
 use App\Nova\Resource;
 use App\Nova\User;
 use Dniccum\PhoneNumber\PhoneNumber;
@@ -17,6 +19,7 @@ use Laravel\Nova\Fields\MorphMany;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
+use SimpleSquid\Nova\Fields\Enum\Enum;
 
 class Passenger extends Resource
 {
@@ -47,7 +50,7 @@ class Passenger extends Resource
      * @var array
      */
     public static $search = [
-        'id', 'first_name', 'middle_name', 'last_name',
+        'id', 'name'
     ];
 
 
@@ -71,22 +74,19 @@ class Passenger extends Resource
                 ->sortable()
                 ->searchable(),
 
-            Select::make(__('Title'), 'title')
-                ->rules('string', 'required')
-                ->options(['Mr', 'Mrs', 'Mstr', 'Miss'])
+
+            Enum::make('Title')
+                ->rules('required')
+                ->attachEnum(PassengerTitle::class)
                 ->sortable()
                 ->hideFromIndex(),
 
-            Text::make(__('First name'), 'first_name')
+            Text::make(__('Name'), 'name')
                 ->rules('required', 'string')
                 ->sortable(),
 
-            Text::make(__('Last name'), 'last_name')
-                ->rules('required', 'string')
-                ->sortable(),
-
-            Select::make(__('Gender'), 'gender')
-                ->options(['Male', 'Female'])
+            Enum::make('Gender')
+                ->attachEnum(PassengerGender::class)
                 ->rules('required', 'string')
                 ->sortable(),
 
@@ -98,13 +98,13 @@ class Passenger extends Resource
                 ->rules('string', 'required')
                 ->sortable(),
 
-            Select::make(__('Nationality'), 'nationality')
-                ->options(Nationality::toArray())
+            Enum::make(__('Nationality'), 'nationality')
+                ->attachEnum(Nationality::class)
                 ->rules('required', 'string')
                 ->hideFromIndex(),
 
-            Select::make(__('Citizenship'), 'citizenship')
-                ->options(Citizenship::toArray())
+            Enum::make(__('Citizenship'), 'citizenship')
+                ->attachEnum(Citizenship::class)
                 ->rules('required', 'string')
                 ->hideFromIndex(),
 

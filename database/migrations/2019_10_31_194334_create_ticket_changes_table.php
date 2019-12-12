@@ -21,6 +21,8 @@ class CreateTicketChangesTable extends Migration
             $table->foreign('requested_by')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedBigInteger('ticket_id');
             $table->foreign('ticket_id')->references('id')->on('tickets')->onDelete('cascade');
+            $table->unsignedBigInteger('trip_id')->nullable();
+            $table->foreign('trip_id')->references('id')->on('trips')->onDelete('cascade');
             $table->integer('fee')->default(0);
             $table->integer('cost')->default(0);
             $table->integer('diff')->default(0);

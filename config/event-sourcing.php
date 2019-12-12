@@ -16,7 +16,8 @@ return [
      * Projectors can be registered in this array or a service provider.
      */
     'projectors' => [
-        App\Domains\Agent\Projectors\AccountProjector::class
+        App\Domains\Agent\Projectors\AccountProjector::class,
+        App\Domains\Booking\Projectors\BookingProjector::class
     ],
 
     /*

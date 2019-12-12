@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use function event;
 use DateTimeInterface;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 /**
  * Class Expense

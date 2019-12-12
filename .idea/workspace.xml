@@ -1,7 +1,134 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e90e01af-484d-4a3c-a07a-4a1396fa043d" name="Default Changelist" comment="" />
+    <list default="true" id="e90e01af-484d-4a3c-a07a-4a1396fa043d" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/app/Domains/Booking/Controllers/SelectAirports.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Domains/Booking/Controllers/SelectTravels.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Domains/Booking/Models/Price.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Domains/Booking/Models/Trip.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Domains/Booking/Nova/Trip.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/design" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/Components/BookTickets/DockedPassenger.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/Components/BookTickets/PassengerCount.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/Components/BookTickets/SelectAirports.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/Components/BookTickets/SelectPassengers.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/Components/BookTickets/SelectTravels.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/Components/Breadcrumbs.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/Components/DatePicker.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/Components/Modal.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/Components/PassengerForm.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/Components/SelectAirport.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/Components/TravelType.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/Mixins/Global/ziggy.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/Pages/BookTickets.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/Pages/Booking/SelectAirports.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/Pages/Booking/SelectTravels.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/Plugins/v-tooltip.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/Plugins/vue-font-awesome.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/sass/v-tooltip.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env.example" beforeDir="false" afterPath="$PROJECT_DIR$/.env.example" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/v3.iraqiairways.info.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/v3.iraqiairways.info.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Domains/Aero/Models/AeroAction.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Domains/Aero/Models/AeroAction.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Domains/Aero/Nova/AeroAction.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Domains/Aero/Nova/AeroAction.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Domains/Agent/Models/Account.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Domains/Agent/Models/Account.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Domains/Agent/Models/AccountLedger.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Domains/Agent/Models/AccountLedger.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Domains/Agent/Models/AccountMovement.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Domains/Agent/Models/AccountMovement.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Domains/Agent/Nova/Account.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Domains/Agent/Nova/Account.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Domains/Agent/Nova/AccountLedger.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Domains/Agent/Nova/AccountLedger.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Domains/Agent/Nova/Commission.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Domains/Agent/Nova/Commission.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Domains/Agent/Projectors/AccountProjector.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Domains/Agent/Projectors/AccountProjector.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Domains/Billing/BillingMethod.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Domains/Billing/BillingMethod.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Domains/Billing/Configuration/BillingMethodOptions.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Domains/Billing/Configuration/BillingMethodOptions.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Domains/Billing/Exceptions/WithdrawFailed.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Domains/Billing/Exceptions/WithdrawFailed.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Domains/Billing/Methods/Balance.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Domains/Billing/Methods/Balance.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Domains/Billing/Methods/Concerns/ValidatesAccount.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Domains/Billing/Methods/Concerns/ValidatesAccount.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Domains/Billing/Models/Expense.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Domains/Billing/Models/Expense.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Domains/Billing/Models/Revenue.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Domains/Billing/Models/Revenue.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Domains/Billing/Models/Transaction.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Domains/Billing/Models/Transaction.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Domains/Billing/Nova/Expense.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Domains/Billing/Nova/Expense.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Domains/Billing/Nova/Revenue.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Domains/Billing/Nova/Revenue.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Domains/Booking/Enums/TravelPeriod.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Domains/Booking/Enums/TripType.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Domains/Booking/Mails/BookingDocuments.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Domains/Booking/Mails/TicketDocuments.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Domains/Booking/Mails/BookingInvoice.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Domains/Booking/Mails/BookingInvoice.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Domains/Booking/Models/AgeGroup.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Domains/Booking/Models/AgeGroup.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Domains/Booking/Models/Airport.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Domains/Booking/Models/Airport.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Domains/Booking/Models/Booking.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Domains/Booking/Models/BookingService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Domains/Booking/Models/TripService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Domains/Booking/Models/Concerns/SendsDocuments.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Domains/Booking/Models/Concerns/SendsDocuments.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Domains/Booking/Models/Concerns/Voidable.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Domains/Booking/Models/Concerns/Voidable.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Domains/Booking/Models/Passenger.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Domains/Booking/Models/Passenger.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Domains/Booking/Models/PriceSeason.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Domains/Booking/Models/PriceSeason.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Domains/Booking/Models/Seat.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Domains/Booking/Models/Seat.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Domains/Booking/Models/Service.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Domains/Booking/Models/Service.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Domains/Booking/Models/Ticket.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Domains/Booking/Models/Ticket.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Domains/Booking/Models/TicketChange.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Domains/Booking/Models/TicketChange.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Domains/Booking/Models/TicketPrice.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Domains/Booking/Models/TicketService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Domains/Booking/Models/TicketService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Domains/Booking/Models/Travel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Domains/Booking/Models/Travel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Domains/Booking/Models/TravelStopover.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Domains/Booking/Models/TravelStopover.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Domains/Booking/Nova/AgeGroup.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Domains/Booking/Nova/AgeGroup.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Domains/Booking/Nova/Airport.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Domains/Booking/Nova/Airport.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Domains/Booking/Nova/Booking.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Domains/Booking/Nova/Passenger.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Domains/Booking/Nova/Passenger.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Domains/Booking/Nova/Ticket.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Domains/Booking/Nova/Ticket.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Domains/Booking/Nova/TicketChange.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Domains/Booking/Nova/TicketChange.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Domains/Booking/Nova/TicketPrice.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Domains/Booking/Nova/Price.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Domains/Booking/Nova/Travel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Domains/Booking/Nova/Travel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Domains/Booking/TravelDate.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Domains/Booking/TravelDate.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Domains/Economy/Models/ReportLine.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Domains/Economy/Models/ReportLine.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ShowHome.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ShowHome.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Nova/Login.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Nova/Login.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Nova/StoredEvent.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Nova/StoredEvent.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Nova/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Nova/User.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Providers/AppServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/AppServiceProvider.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Providers/NovaServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/NovaServiceProvider.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/StoredEvent.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/StoredEvent.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/User.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/helpers.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/helpers.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/currency.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/currency.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/event-sourcing.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/event-sourcing.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/nova.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/nova.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/swap.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/swap.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/factories/UserFactory.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/factories/UserFactory.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2016_12_09_103817_create_age_groups_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2016_12_09_103817_create_age_groups_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2019_10_27_160732_create_airports_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2019_10_27_160732_create_airports_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2019_10_27_162605_create_travels_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2019_10_27_162605_create_travels_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2019_10_27_162949_create_travel_cancels_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2019_10_27_162949_create_travel_cancels_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2019_10_27_163334_create_travel_changes_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2019_10_27_163334_create_travel_changes_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2019_10_27_163404_create_travel_stopovers_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2019_10_27_163404_create_travel_stopovers_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2019_10_27_163545_create_seats_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2019_10_27_163545_create_seats_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2019_10_27_165618_create_passengers_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2019_10_27_165618_create_passengers_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2019_10_27_174804_create_bookings_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2019_10_27_174804_create_tickets_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2019_10_27_180640_create_ticket_prices_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2019_10_27_180640_create__prices_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2019_10_31_194301_create_tickets_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2019_10_31_194301_create_trips_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2019_10_31_194334_create_ticket_changes_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2019_10_31_194334_create_ticket_changes_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2019_11_01_152730_create_account_movements_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2019_11_01_152730_create_account_movements_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2019_11_01_170500_create_revenues_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2019_11_01_170500_create_revenues_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2019_11_01_170750_create_expenses_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2019_11_01_170750_create_expenses_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2019_11_01_171238_create_aero_actions_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2019_11_01_171238_create_aero_actions_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeds/DatabaseSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/DatabaseSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeds/PermissionTablesSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/PermissionTablesSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeds/TravelTablesSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/TravelTablesSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/vendor/nova/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/vendor/nova/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/vendor/nova/mix-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/public/vendor/nova/mix-manifest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/vendor/nova/vendor.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/vendor/nova/vendor.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/Components/FormField.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Components/FormField.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/Mixins/Global/translatable.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Mixins/Global/translatable.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/Pages/About.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/Pages/Contact.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/Pages/Welcome.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/Shared/Layout.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Shared/Layout.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/sass/app.scss" beforeDir="false" afterPath="$PROJECT_DIR$/resources/sass/app.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/app.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/app.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,13 +155,20 @@
     <expand />
     <select />
   </component>
+  <component name="FavoritesManager">
+    <favorites_list name="v3.iraqiairways.info" />
+  </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="JavaScript File" />
+        <option value="SCSS File" />
         <option value="Vue Single File Component" />
       </list>
     </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="PhpWorkspaceProjectConfiguration">
     <include_path>
@@ -161,13 +295,66 @@
       <path value="$PROJECT_DIR$/vendor/laravel/nova" />
       <path value="$PROJECT_DIR$/vendor/ia-ghc/nova-green-theme" />
       <path value="$PROJECT_DIR$/vendor/vyuldashev/nova-permission" />
+      <path value="$PROJECT_DIR$/vendor/phpoffice/phpspreadsheet" />
+      <path value="$PROJECT_DIR$/vendor/theseer/fdomdocument" />
+      <path value="$PROJECT_DIR$/vendor/phpstan/phpdoc-parser" />
+      <path value="$PROJECT_DIR$/vendor/symplify/coding-standard" />
+      <path value="$PROJECT_DIR$/vendor/symplify/package-builder" />
+      <path value="$PROJECT_DIR$/vendor/simplesquid/nova-enum-field" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/annotations" />
+      <path value="$PROJECT_DIR$/vendor/dniccum/phone-number" />
+      <path value="$PROJECT_DIR$/vendor/php-cs-fixer/diff" />
+      <path value="$PROJECT_DIR$/vendor/symfony/http-client" />
+      <path value="$PROJECT_DIR$/vendor/symfony/config" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-php70" />
+      <path value="$PROJECT_DIR$/vendor/symplify/easy-coding-standard" />
+      <path value="$PROJECT_DIR$/vendor/symfony/dependency-injection" />
+      <path value="$PROJECT_DIR$/vendor/symfony/filesystem" />
+      <path value="$PROJECT_DIR$/vendor/giggsey/locale" />
+      <path value="$PROJECT_DIR$/vendor/symfony/cache-contracts" />
+      <path value="$PROJECT_DIR$/vendor/mdixon18/fontawesome" />
+      <path value="$PROJECT_DIR$/vendor/squizlabs/php_codesniffer" />
+      <path value="$PROJECT_DIR$/vendor/giggsey/libphonenumber-for-php" />
+      <path value="$PROJECT_DIR$/vendor/symfony/http-client-contracts" />
+      <path value="$PROJECT_DIR$/vendor/symfony/cache" />
+      <path value="$PROJECT_DIR$/vendor/symfony/yaml" />
+      <path value="$PROJECT_DIR$/vendor/symfony/stopwatch" />
+      <path value="$PROJECT_DIR$/vendor/symfony/var-exporter" />
+      <path value="$PROJECT_DIR$/vendor/phploc/phploc" />
+      <path value="$PROJECT_DIR$/vendor/seld/jsonlint" />
+      <path value="$PROJECT_DIR$/vendor/nunomaduro/phpinsights" />
+      <path value="$PROJECT_DIR$/vendor/ocramius/package-versions" />
+      <path value="$PROJECT_DIR$/vendor/friendsofphp/php-cs-fixer" />
+      <path value="$PROJECT_DIR$/vendor/maatwebsite/excel" />
+      <path value="$PROJECT_DIR$/vendor/maatwebsite/laravel-nova-excel" />
+      <path value="$PROJECT_DIR$/vendor/justinrainbow/json-schema" />
+      <path value="$PROJECT_DIR$/vendor/sensiolabs/security-checker" />
+      <path value="$PROJECT_DIR$/vendor/psr/cache" />
+      <path value="$PROJECT_DIR$/vendor/slevomat/coding-standard" />
+      <path value="$PROJECT_DIR$/vendor/seld/phar-utils" />
+      <path value="$PROJECT_DIR$/vendor/sebastian/finder-facade" />
+      <path value="$PROJECT_DIR$/vendor/nette/finder" />
+      <path value="$PROJECT_DIR$/vendor/nette/utils" />
+      <path value="$PROJECT_DIR$/vendor/nette/robot-loader" />
+      <path value="$PROJECT_DIR$/vendor/markbaker/matrix" />
+      <path value="$PROJECT_DIR$/vendor/markbaker/complex" />
+      <path value="$PROJECT_DIR$/vendor/propaganistas/laravel-phone" />
+      <path value="$PROJECT_DIR$/vendor/jean85/pretty-package-versions" />
+      <path value="$PROJECT_DIR$/vendor/league/container" />
+      <path value="$PROJECT_DIR$/vendor/league/iso3166" />
+      <path value="$PROJECT_DIR$/vendor/laravel/ui" />
+      <path value="$PROJECT_DIR$/vendor/object-calisthenics/phpcs-calisthenics-rules" />
+      <path value="$PROJECT_DIR$/vendor/tightenco/ziggy" />
+      <path value="$PROJECT_DIR$/vendor/symfony/error-handler" />
     </include_path>
   </component>
   <component name="ProjectId" id="1Shf4xvWa6oh5tz0t0FHXplrVLM" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="com.jetbrains.php.lang.actions.generation.PhpGenerateFieldAccessorHandlerBase$MyMemberChooser.fluent.setters.last.selected" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="list.type.of.created.stylesheet" value="SCSS" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -180,13 +367,15 @@
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="php.override.implement.member.chooser.php.doc" value="COPY_ALWAYS" />
     <property name="settings.editor.selected.configurable" value="preferences.sourceCode.PHP" />
+    <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/resources/js/Components" />
+      <recent name="$PROJECT_DIR$/resources/js/Plugins" />
+      <recent name="$PROJECT_DIR$/resources/js/Pages/Booking" />
       <recent name="$PROJECT_DIR$/resources/js/Mixins/Global" />
       <recent name="$PROJECT_DIR$/app/Domains/Billing" />
-      <recent name="$PROJECT_DIR$/app/Domain/Payment/Configuration" />
-      <recent name="$PROJECT_DIR$/app/Domain/Accounting/Models" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -235,10 +424,33 @@
       <workItem from="1572020561926" duration="438000" />
       <workItem from="1572021017438" duration="24000" />
       <workItem from="1572021056625" duration="87143000" />
+      <workItem from="1573246601491" duration="131000" />
+      <workItem from="1573247293048" duration="15556000" />
+      <workItem from="1573294547416" duration="737000" />
+      <workItem from="1573295303595" duration="28718000" />
+      <workItem from="1573463293754" duration="14386000" />
+      <workItem from="1573722945163" duration="218000" />
+      <workItem from="1573723183685" duration="6480000" />
+      <workItem from="1573840674225" duration="9345000" />
+      <workItem from="1576146218089" duration="813000" />
+      <workItem from="1576151137136" duration="754000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>

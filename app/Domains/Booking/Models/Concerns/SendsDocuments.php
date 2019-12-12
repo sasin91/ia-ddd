@@ -2,9 +2,9 @@
 
 namespace App\Domains\Booking\Models\Concerns;
 
-use App\Domains\Booking\Mails\BookingDocuments;
+use App\Domains\Booking\Mails\TicketDocuments;
 use App\Domains\Booking\Mails\BookingInvoice;
-use App\Domains\Booking\Models\Booking;
+use App\Domains\Booking\Models\Ticket;
 use Barryvdh\Snappy\Facades\SnappyPdf as PDF;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Mail;
@@ -15,9 +15,9 @@ trait SendsDocuments
     /**
      * Update the documents sent at timestamp
      *
-     * @return Booking
+     * @return Ticket
      */
-    public function markAsSent(): Booking
+    public function markAsSent(): Ticket
     {
         return tap($this)->update([
             'documents_sent_at' => $this->freshTimestamp()
@@ -31,7 +31,7 @@ trait SendsDocuments
      */
     public function getSignedDocumentsLinkAttribute(): string
     {
-        return URL::signedRoute('booking.documents.download', ['booking' => $this->getKey()]);
+        return URL::signedRoute('ticket.documents.download', ['ticket' => $this->getKey()]);
     }
 
     /**
@@ -41,7 +41,7 @@ trait SendsDocuments
      */
     public function sendDocument()
     {
-        return Mail::to($this->buyer_email)->queue(new BookingDocuments($this));
+        return Mail::to($this->buyer_email)->queue(new TicketDocuments($this));
     }
 
     /**
@@ -52,7 +52,7 @@ trait SendsDocuments
     public function downloadDocuments(): Response
     {
         return PDF::loadView('documents.booking-documents', [
-            'booking' => $this->loadMissing('tickets', 'transactions')
+            'ticket' => $this->loadMissing('trips', 'transactions')
         ])->download("IraqiAirways_document_{$this->PNR}.pdf");
     }
 
@@ -84,7 +84,7 @@ trait SendsDocuments
     public function downloadInvoice(): Response
     {
         return PDF::loadView('documents.booking-invoice-pdf', [
-            'booking' => $this->loadMissing('tickets', 'transactions')
+            'ticket' => $this->loadMissing('trips', 'transactions')
         ])->download("IraqiAirways_invoice_{$this->PNR}.pdf");
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Domains\Booking\Mails;
 
-use App\Domains\Booking\Models\Booking;
+use App\Domains\Booking\Models\Ticket;
 use Barryvdh\Snappy\Facades\SnappyPdf as PDF;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Mail\Mailer;
@@ -10,23 +10,23 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class BookingDocuments extends Mailable implements ShouldQueue
+class TicketDocuments extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
     /**
-     * @var Booking
+     * @var Ticket
      */
-    public $booking;
+    public $ticket;
 
     /**
-     * BookingDocumentsMail constructor.
+     * TicketDocuments constructor.
      *
-     * @param Booking $booking
+     * @param Ticket $ticket
      */
-    public function __construct(Booking $booking)
+    public function __construct(Ticket $ticket)
     {
-        $this->booking = $booking;
+        $this->ticket = $ticket;
         $this->onQueue('mails');
     }
 
@@ -40,7 +40,7 @@ class BookingDocuments extends Mailable implements ShouldQueue
     {
         parent::send($mailer);
 
-        $this->booking->markAsSent();
+        $this->ticket->markAsSent();
     }
 
     /**
@@ -50,7 +50,7 @@ class BookingDocuments extends Mailable implements ShouldQueue
      */
     public function build()
     {
-        $this->booking->loadMissing([
+        $this->ticket->loadMissing([
             'mainTrips',
             'mainTrips.services',
             'mainTrips.aeroActions' => function ($q) { $q->where('type', AeroActionType::ADDED)->take(1); },
@@ -60,21 +60,21 @@ class BookingDocuments extends Mailable implements ShouldQueue
             'mainTrips.travelDate.travel.flight'
         ]);
 
-        $PDF = PDF::loadView('documents.booking-documents', [
-            'booking' => $this->booking
+        $PDF = PDF::loadView('documents.ticket-documents', [
+            'ticket' => $this->ticket
         ]);
 
         $PDF->setPaper('A4', 'landscape');
 
-        return $this->view('mails.booking-documents', [
-            'booking' => $this->booking
-        ])->attachData($PDF->output(), "IraqiAirways_documents_{$this->booking->PNR}.pdf", [
+        return $this->view('mails.ticket-documents', [
+            'ticket' => $this->ticket
+        ])->attachData($PDF->output(), "IraqiAirways_documents_{$this->ticket->PNR}.pdf", [
             'mime' => 'application/pdf',
         ])
             ->subject(__(
-                'Iraqi Airways Travel documents :PNR',
-                ['PNR' => $this->booking->PNR],
-                optional($this->booking->buyer)->locale ?? app()->getLocale()
+                'Iraqi Airways Ticket Documents :PNR',
+                ['PNR' => $this->ticket->PNR],
+                optional($this->ticket->buyer)->locale ?? app()->getLocale()
             ));
     }
 }

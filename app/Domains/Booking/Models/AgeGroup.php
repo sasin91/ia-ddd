@@ -16,13 +16,16 @@ class AgeGroup extends Model
         'name', 'icon',
         'from','to',
         'passport_required',
-        'luggage_limit'
+        'luggage_limit',
+        'passenger_limit'
     ];
 
     protected $casts = [
         'passport_required'     =>  'boolean',
         'from'                  =>  'integer',
-        'to'                    =>  'integer'
+        'to'                    =>  'integer',
+        'luggage_limit'         =>  'integer',
+        'passenger_limit'       =>  'integer'
     ];
 
     /**

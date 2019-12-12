@@ -6,13 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+
 class TravelStopover extends Model
 {
     use SoftDeletes;
 
     protected $fillable = [
         'travel_id',
-        'airport_id',
+        'airport_IATA',
         'weekday',
         'arrival_time',
         'departure_time'
@@ -25,6 +26,6 @@ class TravelStopover extends Model
 
     public function airport(): BelongsTo
     {
-        return $this->belongsTo(Airport::class);
+        return $this->belongsTo(Airport::class, 'airport_IATA', 'IATA');
     }
 }

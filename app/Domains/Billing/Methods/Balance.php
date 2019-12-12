@@ -14,13 +14,14 @@ use App\Domains\Billing\Models\Expense;
 use App\Domains\Billing\Models\Revenue;
 use App\Domains\Billing\Configuration\BillingMethodOptions;
 use App\Domains\Billing\Contracts\BillingMethod;
+use Illuminate\Database\Eloquent\Model;
 use function class_basename;
 use function optional;
 use function tap;
 use function throw_unless;
 use Throwable;
 
-class  Balance implements BillingMethod
+class Balance implements BillingMethod
 {
     use ResolvesAccount,
         ValidatesAccount,
@@ -44,7 +45,7 @@ class  Balance implements BillingMethod
 
         $this->validateSufficientBalance(
             $amount,
-            $account->ledgers->firstWhere('currency', $options->getCurrencyCode())
+            $account->ledgers()->where('currency', $options->getCurrencyCode())->first()
         );
 
         return tap(new Revenue([
@@ -145,7 +146,7 @@ class  Balance implements BillingMethod
 
     /**
      * @param int $amount
-     * @param AccountLedger $ledger
+     * @param AccountLedger|Model $ledger
      * @throws Throwable
      */
     protected function validateSufficientBalance(int $amount, AccountLedger $ledger = null): void

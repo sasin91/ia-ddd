@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Date;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
@@ -25,6 +26,16 @@ class Login extends Resource
     public static $model = \App\Login::class;
 
     /**
+     * Get the value that should be displayed to represent the resource.
+     *
+     * @return string
+     */
+    public function title()
+    {
+        return Date::instance($this->created_at)->toDayDateTimeString();
+    }
+
+    /**
      * Get the fields displayed by the resource.
      *
      * @param \Illuminate\Http\Request $request
@@ -37,12 +48,11 @@ class Login extends Resource
 
             BelongsTo::make('User'),
 
-            Text::make('ip_address')->rules('ip'),
-            Text::make('user_agent'),
+            Text::make('IP', 'ip_address')->rules('ip'),
+            Text::make('Browser', 'user_agent'),
 
-            DateTime::make('created_at'),
-            DateTime::make('updated_at')
+            DateTime::make('Created', 'created_at')->format('llll'),
+            DateTime::make('Updated', 'updated_at')->format('llll')
         ];
     }
-
 }

@@ -37,7 +37,7 @@ class PermissionTablesSeeder extends Seeder
         ]);
 
         Permission::query()->create([
-            'name' => 'view Nova',
+            'name' => 'view Staff',
             'guard_name' => 'web'
         ])->roles()->saveMany([$receptionist, $accountant, $owner, $developer]);
     }

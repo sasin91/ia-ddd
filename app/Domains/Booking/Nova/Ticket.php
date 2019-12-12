@@ -2,16 +2,18 @@
 
 namespace App\Domains\Booking\Nova;
 
-use App\Domains\Aero\Nova\AeroAction;
-use App\Domains\Booking\Enums\TravelClass;
-use App\Domains\Booking\Enums\TravelPeriod;
+use App\Domains\Billing\Nova\Transaction;
 use App\Nova\Resource;
+use App\Nova\User;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Select;
+use Laravel\Nova\Fields\MorphMany;
+use Laravel\Nova\Fields\MorphToMany;
 use Laravel\Nova\Fields\Text;
 
 class Ticket extends Resource
@@ -24,13 +26,6 @@ class Ticket extends Resource
     public static $group = 'Booking';
 
     /**
-     * The relationships that should be eager loaded when performing an index query.
-     *
-     * @var array
-     */
-    public static $with = ['booking:PNR', 'passenger:title,first_name,middle_name,last_name'];
-
-    /**
      * The model the resource corresponds to.
      *
      * @var string
@@ -38,81 +33,55 @@ class Ticket extends Resource
     public static $model = \App\Domains\Booking\Models\Ticket::class;
 
     /**
+     * The single value that should be used to represent the resource when being displayed.
+     *
+     * @var string
+     */
+    public static $title = 'PNR';
+
+    /**
      * The columns that should be searched.
      *
      * @var array
      */
     public static $search = [
-        'ticket_period'
+        'PNR', 'buyer_email'
     ];
-
-    /**
-     * Get the value that should be displayed to represent the resource.
-     *
-     * @return string
-     */
-    public function title()
-    {
-        $title = '';
-
-        if ($this->booking) {
-            $title .= "[$this->booking->PNR]";
-        }
-
-        if ($this->passenger) {
-            $title .= $this->passenger->full_name;
-        }
-
-        return $title;
-    }
 
     /**
      * Get the fields displayed by the resource.
      *
-     * @param  Request $request
+     * @param  Request  $request
      * @return array
      */
     public function fields(Request $request)
     {
         return [
-            ID::make()->sortable(),
+            ID::make()
+                ->sortable(),
 
-            BelongsTo::make('Booking', 'booking', Booking::class),
+            Text::make('PNR', 'PNR')
+                ->sortable(),
 
-            BelongsTo::make('Passenger', 'passenger', Passenger::class),
+            Text::make('buyer_email')
+                ->sortable(),
 
-            BelongsTo::make('Price', 'price', TicketPrice::class),
+            BelongsTo::make('buyer', 'Buyer', User::class)
+                ->sortable(),
 
-            Select::make('Travel Period', 'period')
-                ->options(TravelPeriod::toSelectArray()),
+            Boolean::make('express'),
 
-            Select::make('Travel Class', 'travel_class')
-                ->options(TravelClass::toSelectArray())
-                ->hideFromIndex(),
+            Currency::make('total_cost'),
 
-            Text::make('Outward Flight Nr.', 'outward_flight_number')
-                ->hideFromIndex(),
+            DateTime::make('voided_at'),
 
-            DateTime::make('Outward Departure', 'outward_departure_datetime')
-                ->hideFromIndex(),
+            DateTime::make('documents_sent_at'),
 
-            DateTime::make('Outward Arrival', 'outward_arrival_datetime')
-                ->hideFromIndex(),
-
-            Text::make('Home Flight Nr.', 'home_flight_number')
-                ->hideFromIndex(),
-
-            DateTime::make('Home Departure', 'home_departure_datetime')
-                ->hideFromIndex(),
-
-            DateTime::make('Home Arrival', 'home_arrival_datetime')
-                ->hideFromIndex(),
-
-            HasMany::make('Actions', 'aeroActions', AeroAction::class)
+            HasMany::make('Tickets', 'tickets', Trip::class)
                 ->onlyOnDetail(),
 
-            HasMany::make('Changes', 'ticketChanges', TicketChange::class)
-                ->onlyOnDetail(),
+            MorphMany::make('Transactions', 'transactions', Transaction::class)
+                ->onlyOnDetail()
         ];
     }
 }

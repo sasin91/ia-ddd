@@ -2,7 +2,7 @@
 
 namespace App\Domains\Billing\Models;
 
-use App\Domains\Booking\Models\Booking;
+use App\Domains\Booking\Models\Ticket;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
@@ -30,7 +30,7 @@ class Transaction extends Model
     /**
      * The product the transaction is made for
      *
-     * @return BelongsTo<Booking>
+     * @return BelongsTo<Ticket>
      */
     public function product(): BelongsTo
     {

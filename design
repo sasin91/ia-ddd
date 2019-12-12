@@ -1,0 +1,3 @@
+Booking => Ticket
+Ticket => Trip (new!)
+TicketChange: add trip_id, if null = all trips under ticket

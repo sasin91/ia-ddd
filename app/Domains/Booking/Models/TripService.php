@@ -5,13 +5,13 @@ namespace App\Domains\Booking\Models;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class BookingService extends Pivot
+class TripService extends Pivot
 {
-    protected $table = 'booking_service';
+    protected $table = 'ticket_service';
 
     protected $fillable = [
         'service_id',
-        'booking_id'
+        'ticket_id'
     ];
 
     /**
@@ -22,8 +22,8 @@ class BookingService extends Pivot
         return $this->belongsTo(Service::class);
     }
 
-    public function booking(): BelongsTo
+    public function ticket(): BelongsTo
     {
-        return $this->belongsTo(Booking::class);
+        return $this->belongsTo(Trip::class);
     }
 }

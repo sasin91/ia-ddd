@@ -16,8 +16,11 @@ use App\Domains\Agent\Models\AccountLedger;
 use App\Domains\Billing\BillingMethod;
 use Spatie\EventSourcing\Projectors\ProjectsEvents;
 use Spatie\EventSourcing\Projectors\QueuedProjector;
+use Spatie\EventSourcing\StoredEvent;
+
 use function config;
 use function get_class;
+
 class AccountProjector implements QueuedProjector
 {
     use ProjectsEvents;
@@ -57,7 +60,7 @@ class AccountProjector implements QueuedProjector
 
             if (isset($event->attributes['balance'])) {
                 $ledger->update([
-                    'balance' => $event->attributes['balance'] * $ledger->exchangeRate()->getValue()
+                    'balance' => $event->attributes['balance'] * $ledger->exchangeRate()->value
                 ]);
             }
         }
@@ -80,19 +83,19 @@ class AccountProjector implements QueuedProjector
         $account->delete();
     }
 
-    public function onMoneyDepositedToBalance(MoneyDepositedToBalance $event)
+    public function onMoneyDepositedToBalance(MoneyDepositedToBalance $event, StoredEvent $storedEvent)
     {
-        $this->addMoneyToAccountBalance($event);
+        $this->addMoneyToAccountBalance($event, $storedEvent);
     }
 
-    public function onMoneyRefundedToBalance(MoneyRefundedToBalance $event)
+    public function onMoneyRefundedToBalance(MoneyRefundedToBalance $event, StoredEvent $storedEvent)
     {
-        $this->addMoneyToAccountBalance($event);
+        $this->addMoneyToAccountBalance($event, $storedEvent);
     }
 
-    public function onMoneyWithdrawnFromBalance(MoneyWithdrawnFromBalance $event)
+    public function onMoneyWithdrawnFromBalance(MoneyWithdrawnFromBalance $event, StoredEvent $storedEvent)
     {
-        $this->subtractMoneyFromAccountBalance($event);
+        $this->subtractMoneyFromAccountBalance($event, $storedEvent);
     }
 
     public function onPointsEarned(PointsEarned $event)
@@ -115,15 +118,15 @@ class AccountProjector implements QueuedProjector
         $this->addPointsToAccount($event);
     }
 
-    private function addMoneyToAccountBalance($event)
+    private function addMoneyToAccountBalance($event, $storedEvent)
     {
         $account = Account::findByEvent($event);
 
-        $account->ledgers->each(function (AccountLedger $ledger) use ($event) {
-            $exchangeRate = $ledger->exchangeRate()->getValue();
+        $account->ledgers->each(function (AccountLedger $ledger) use ($event, $storedEvent) {
+            $exchangeRate = $ledger->exchangeRate()->value;
 
             $ledger->movements()->create([
-                'stored_event_id' => $event->id,
+                'stored_event_id' => $storedEvent->id,
                 'stored_event_type' => get_class($event),
                 'causer_type' => $event->causerType,
                 'causer_id' => $event->causerId,
@@ -136,15 +139,15 @@ class AccountProjector implements QueuedProjector
         });
     }
 
-    private function subtractMoneyFromAccountBalance($event)
+    private function subtractMoneyFromAccountBalance($event, $storedEvent)
     {
         $account = Account::findByEvent($event);
 
-        $account->ledgers->each(function (AccountLedger $ledger) use ($event) {
-            $exchangeRate = $ledger->exchangeRate()->getValue();
+        $account->ledgers->each(function (AccountLedger $ledger) use ($event, $storedEvent) {
+            $exchangeRate = $ledger->exchangeRate()->value;
 
             $ledger->movements()->create([
-                'stored_event_id' => $event->id,
+                'stored_event_id' => $storedEvent->id,
                 'stored_event_type' => get_class($event),
                 'causer_type' => $event->causerType,
                 'causer_id' => $event->causerId,

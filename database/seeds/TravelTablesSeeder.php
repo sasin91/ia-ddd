@@ -15,37 +15,37 @@ class TravelTablesSeeder extends Seeder
     public function run()
     {
         $airports = Airport::all(['IATA', 'id']);
-        $CPH = $airports->firstWhere('IATA', 'CPH')->id;
-        $BGW = $airports->firstWhere('IATA', 'BGW')->id;
-        $ISU = $airports->firstWhere('IATA', 'ISU')->id;
-        $NJF = $airports->firstWhere('IATA', 'NJF')->id;
-        $EBL = $airports->firstWhere('IATA', 'EBL')->id;
+        $CPH = $airports->firstWhere('IATA', 'CPH')->IATA;
+        $BGW = $airports->firstWhere('IATA', 'BGW')->IATA;
+        $ISU = $airports->firstWhere('IATA', 'ISU')->IATA;
+        $NJF = $airports->firstWhere('IATA', 'NJF')->IATA;
+        $EBL = $airports->firstWhere('IATA', 'EBL')->IATA;
 
         /** @var Travel $IA282 */
         $IA282 = Travel::query()->create([
             'flight_number' => 'IA282',
             'travel_class' => TravelClass::ECONOMY,
-            'departure_airport_id' => $CPH,
-            'destination_airport_id' => $BGW,
+            'departure_airport' => $CPH,
+            'destination_airport' => $BGW,
             'default_seats' => 135,
             'open_until' => '2019-12-31 00:00:00'
         ]);
 
         $IA282->stopovers()->createMany([
             [
-                'airport_id' => $ISU,
+                'airport_IATA' => $ISU,
                 'weekday' => 'Monday',
                 'arrival_time' => '21:00:00',
                 'departure_time' => '22:00:00'
             ],
             [
-                'airport_id' => $NJF,
+                'airport_IATA' => $NJF,
                 'weekday' => 'Tuesday',
                 'arrival_time' => '21:00:00',
                 'departure_time' => '21:30:00'
             ],
             [
-                'airport_id' => $EBL,
+                'airport_IATA' => $EBL,
                 'weekday' => 'Friday',
                 'arrival_time' => '21:00:00',
                 'departure_time' => '22:00:00'
@@ -79,27 +79,27 @@ class TravelTablesSeeder extends Seeder
         $IA281 = Travel::query()->create([
             'flight_number' => 'IA281',
             'travel_class' => TravelClass::ECONOMY,
-            'departure_airport_id' => $BGW,
-            'destination_airport_id' => $CPH,
+            'departure_airport' => $BGW,
+            'destination_airport' => $CPH,
             'default_seats' => 135,
             'open_until' => '2019-12-31 00:00:00'
         ]);
 
         $IA281->stopovers()->createMany([
             [
-                'airport_id' => $ISU,
+                'airport_IATA' => $ISU,
                 'weekday' => 'Monday',
                 'arrival_time' => '09:00:00',
                 'departure_time' => '10:00:00'
             ],
             [
-                'airport_id' => $NJF,
+                'airport_IATA' => $NJF,
                 'weekday' => 'Tuesday',
                 'arrival_time' => '09:00:00',
                 'departure_time' => '09:30:00'
             ],
             [
-                'airport_id' => $EBL,
+                'airport_IATA' => $EBL,
                 'weekday' => 'Friday',
                 'arrival_time' => '09:00:00',
                 'departure_time' => '09:30:00'

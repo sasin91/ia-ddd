@@ -9,7 +9,7 @@ use Spatie\EventSourcing\Models\EloquentStoredEvent;
 
 class StoredEvent extends EloquentStoredEvent
 {
-    public static function boot()
+    protected static function boot()
     {
         parent::boot();
 

@@ -54,7 +54,7 @@ class AccountLedger extends Resource
         return [
             ID::make()->sortable(),
 
-            BelongsTo::make('Account'),
+            BelongsTo::make('Account', 'account', Account::class),
 
             Select::make('Currency')->options(config('currency.supported')),
 

@@ -16,8 +16,22 @@
     import Navbar from '~/Shared/Navbar'
 
     export default {
-     components: {
-         Navbar,
-     }
-}
+        components: {
+            Navbar,
+        },
+
+        props: {
+            title: String,
+        },
+
+        watch: {
+            title: {
+                handler(title) {
+                    document.title = title
+                },
+
+                immediate: true,
+            },
+        }
+    }
 </script>

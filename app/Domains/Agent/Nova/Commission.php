@@ -2,8 +2,10 @@
 
 namespace App\Domains\Agent\Nova;
 
+use App\Domains\Booking\Nova\Travel;
 use App\Nova\Resource;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\ID;
@@ -65,15 +67,20 @@ class Commission extends Resource
         return [
             ID::make()->sortable(),
 
-            BelongsTo::make('Account'),
+            BelongsTo::make('Account', 'account', Account::class)->rules('required'),
 
-            BelongsTo::make('Travel'),
+            BelongsTo::make('Travel', 'travel', Travel::class)
+                ->rules('required')
+                ->creationRules('unique:commissions,travel_id')
+                ->updateRules(Rule::unique('commissions', 'travel_id')->ignore('{{resourceId}}')->where(function ($query) {
+                    $query->where('account_id', '!=', $this->model()->account_id);
+                })),
 
-            Currency::make('base'),
+            Currency::make('Base', 'base')->withMeta(['value' => 75]),
 
-            Number::make('extra'),
+            Number::make('Extra %', 'extra')->withMeta(['value' => 0]),
 
-            Number::make('points_percentage')
+            Number::make('Points %', 'points_percentage')->withMeta(['value' => 0.8])->step(0.01)
         ];
     }
 }

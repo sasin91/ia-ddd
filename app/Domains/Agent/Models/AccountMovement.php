@@ -30,7 +30,7 @@ class AccountMovement extends Model
      */
     public function ledger(): BelongsTo
     {
-        return $this->belongsTo(AccountLedger::class);
+        return $this->belongsTo(AccountLedger::class, 'account_ledger_id');
     }
 
     /**

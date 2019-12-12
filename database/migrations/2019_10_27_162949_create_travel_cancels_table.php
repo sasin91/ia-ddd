@@ -16,6 +16,7 @@ class CreateTravelCancelsTable extends Migration
         Schema::create('travel_cancels', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('flight_number');
+            $table->foreign('flight_number')->references('flight_number')->on('travels');
             $table->timestamp('departs_at');
             $table->string('reason')->nullable();
             $table->timestamps();

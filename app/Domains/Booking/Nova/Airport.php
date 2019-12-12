@@ -57,7 +57,11 @@ class Airport extends Resource
         return [
             ID::make()->sortable(),
 
-            Text::make('IATA', 'IATA')->rules('required', 'string')->sortable(),
+            Text::make('IATA', 'IATA')
+                ->rules('required', 'string')
+                ->creationRules('unique:airports,IATA')
+                ->updateRules('unique:airports,IATA,{{resourceId}}')
+                ->sortable(),
 
             Text::make(__('Location'), 'location')->rules('required', 'string')->sortable(),
 

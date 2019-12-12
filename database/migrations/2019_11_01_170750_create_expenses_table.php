@@ -24,7 +24,7 @@ class CreateExpensesTable extends Migration
             $table->integer('points');
             $table->decimal('exchange_rate');
             $table->string('currency_code');
-            $table->string('description');
+            $table->string('description')->nullable();
             $table->string('category');
             $table->string('billing_method');
             $table->string('reference')->nullable();

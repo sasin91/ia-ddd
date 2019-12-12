@@ -1,9 +1,6 @@
 <?php
 
-use App\Contracts\Action;
-use Exchanger\Contract\ExchangeRate;
-use Illuminate\Support\Facades\Date;
-use Swap\Swap;
+use App\Domains\Billing\ExchangeRate;
 
 if (! function_exists('points_for')) {
     /**
@@ -41,17 +38,8 @@ if (!function_exists('is_email')) {
 }
 
 if (!function_exists('exchange_rate')) {
-    function exchange_rate(string $fromCurrency, string $toCurrency, $atDate = null): ExchangeRate
+    function exchange_rate(string $fromCurrency, string $toCurrency, $atDate = null)
     {
-        $atDate = $atDate ? Date::parse($atDate) : Date::now();
-        $currencyPair = "{$fromCurrency}/{$toCurrency}";
-
-        return with(resolve(Swap::class), function (Swap $swap) use ($atDate, $currencyPair) {
-           if (Date::now()->isSameDay($atDate)) {
-               return $swap->latest($currencyPair);
-           }
-
-           return $swap->historical($currencyPair, $atDate);
-        });
+        return ExchangeRate::find($toCurrency, $fromCurrency, $atDate);
     }
 }

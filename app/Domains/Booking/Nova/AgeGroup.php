@@ -66,9 +66,11 @@ class AgeGroup extends Resource
 
             Number::make('To'),
 
-            Boolean::make('passport_required'),
+            Boolean::make('Passport Required?', 'passport_required'),
 
-            Number::make('luggage_limit')
+            Number::make('Luggage Limit', 'luggage_limit'),
+
+            Number::make('Passenger Limit', 'passenger_limit')
         ];
     }
 }

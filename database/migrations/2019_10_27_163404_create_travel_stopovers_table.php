@@ -17,8 +17,8 @@ class CreateTravelStopoversTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('travel_id');
             $table->foreign('travel_id')->references('id')->on('travels')->onDelete('CASCADE');
-            $table->unsignedBigInteger('airport_id');
-            $table->foreign('airport_id')->references('id')->on('airports');
+            $table->string('airport_IATA');
+            $table->foreign('airport_IATA')->references('IATA')->on('airports');
             $table->string('weekday');
             $table->time('arrival_time')->nullable();
             $table->time('departure_time')->nullable();

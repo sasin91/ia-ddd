@@ -3,9 +3,13 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Str;
 use Laravel\Nova\Fields\Code;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Nova;
+use function get_class;
 
 class StoredEvent extends Resource
 {
@@ -24,13 +28,6 @@ class StoredEvent extends Resource
     public static $model = \App\StoredEvent::class;
 
     /**
-     * The single value that should be used to represent the resource when being displayed.
-     *
-     * @var string
-     */
-    public static $title = 'event_class';
-
-    /**
      * The columns that should be searched.
      *
      * @var array
@@ -38,6 +35,37 @@ class StoredEvent extends Resource
     public static $search = [
         'event_class'
     ];
+
+    /**
+     * Get the value that should be displayed to represent the resource.
+     *
+     * @return string
+     */
+    public function title()
+    {
+        return Str::humanize($this->event_class);
+    }
+
+    /**
+     * Determine if the current user can create new resources.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return bool
+     */
+    public static function authorizedToCreate(Request $request)
+    {
+        return false;
+    }
+
+    /**
+     * Get the displayable label of the resource.
+     *
+     * @return string
+     */
+    public static function label()
+    {
+        return __('Events');
+    }
 
     /**
      * Get the fields displayed by the resource.
@@ -50,13 +78,17 @@ class StoredEvent extends Resource
         return [
             ID::make(),
 
-            Text::make('aggregate_uuid')->readonly(),
+            Text::make('Aggrgate UUID', 'aggregate_uuid')->readonly()->onlyOnDetail(),
 
-            Text::make('event_class')->readonly(),
+            Text::make('Name', 'event_class')->displayUsing(function ($eventClass) {
+                return __(
+                    Str::humanize($eventClass)
+                );
+            })->readonly(),
 
-            Code::make('event_properties')->readonly(),
+            Code::make('Properties', 'event_properties')->json()->readonly(),
 
-            Code::make('meta_data')->readonly(),
+            Code::make('Meta', 'meta_data')->json()->readonly(),
         ];
     }
 }

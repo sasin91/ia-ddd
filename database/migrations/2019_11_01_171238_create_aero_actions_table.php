@@ -19,10 +19,12 @@ class CreateAeroActionsTable extends Migration
             $table->foreign('ticket_id')->references('id')->on('tickets')->onDelete('cascade');
             $table->unsignedBigInteger('aero_id');
             $table->foreign('aero_id')->references('id')->on('aeros')->onDelete('cascade');
+            $table->string('type');
             $table->string('command');
             $table->string('e_ticket');
             $table->decimal('tax');
             $table->decimal('price');
+            $table->dateTime('executed_at')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

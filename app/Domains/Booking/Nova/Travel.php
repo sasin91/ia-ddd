@@ -70,12 +70,12 @@ class Travel extends Resource
                 ->sortable(),
 
             BelongsTo::make('Departure', 'departureAirport', Airport::class)
-                ->rules('required', 'exists:airports,id')
+                ->rules('required', 'exists:airports,IATA')
                 ->sortable()
                 ->searchable(),
 
             BelongsTo::make(__('Destination'), 'destinationAirport', Airport::class)
-                ->rules('required', 'exists:airports,id')
+                ->rules('required', 'exists:airports,IATA')
                 ->sortable()
                 ->searchable(),
 
@@ -84,8 +84,8 @@ class Travel extends Resource
             HasMany::make('Stopovers', 'stopovers', TravelStopover::class)->onlyOnDetail(),
             HasMany::make('Changes', 'changes', TravelChange::class)->onlyOnDetail(),
             HasMany::make('Cancels', 'cancels', TravelCancel::class)->onlyOnDetail(),
-            HasMany::make('Outward Tickets', 'outwardTickets', Ticket::class)->onlyOnDetail(),
-            HasMany::make('Home Tickets', 'homeTickets', Ticket::class)->onlyOnDetail(),
+            HasMany::make('Outward Tickets', 'outwardTickets', Trip::class)->onlyOnDetail(),
+            HasMany::make('Home Tickets', 'homeTickets', Trip::class)->onlyOnDetail(),
         ];
     }
 }

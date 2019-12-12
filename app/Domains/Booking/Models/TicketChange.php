@@ -113,6 +113,17 @@ class TicketChange extends Model
     }
 
     /**
+     * An optional trip.
+     * No trip means affecting entire ticket.
+     *
+     * @return BelongsTo
+     */
+    public function trip(): BelongsTo
+    {
+        return $this->belongsTo(Trip::class);
+    }
+
+    /**
      * The staff member that carries out the change
      *
      * @return BelongsTo
@@ -140,9 +151,9 @@ class TicketChange extends Model
     /**
      * Apply the changes
      *
-     * @return Ticket
+     * @return Trip
      */
-    public function apply(): Ticket
+    public function apply(): Trip
     {
         return tap($this->ticket->applyChanges(), function () {
             $this->markAsCompleted();

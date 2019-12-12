@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+use Carbon\CarbonInterval;
+
 return [
 
     /*
@@ -20,7 +22,9 @@ return [
     |
     | * cache_ttl: The cache ttl in seconds.
     */
-    'options' => [],
+    'options' => [
+        'cache_ttl' => CarbonInterval::make('1 week')->totalSeconds
+    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -70,8 +74,10 @@ return [
     |
     */
     'services' => [
-        'fixer' => ['access_key' => 'YOUR_KEY', 'enterprise' => false],
-        'currency_layer' => ['access_key' => 'secret', 'enterprise' => false],
+        'fixer' => [
+            'access_key' => env('FIXER_KEY'),
+            'enterprise' => env('FIXER_ENTERPRISE', false)
+        ],
     ],
 
     /*
@@ -83,7 +89,7 @@ return [
     |
     | 'cache' => 'file'
     */
-    'cache' => null,
+    'cache' => config('SWAP_CACHE', null),
 
     /*
     |--------------------------------------------------------------------------

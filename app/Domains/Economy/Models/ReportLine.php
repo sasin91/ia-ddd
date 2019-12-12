@@ -2,7 +2,7 @@
 
 namespace App\Domains\Economy\Models;
 
-use App\Domains\Booking\Models\Ticket;
+use App\Domains\Booking\Models\Trip;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -61,6 +61,6 @@ class ReportLine extends Model
 
     public function ticket(): BelongsTo
     {
-        return $this->belongsTo(Ticket::class);
+        return $this->belongsTo(Trip::class);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Domains\Booking\Mails;
 
-use App\Domains\Booking\Models\Booking;
+use App\Domains\Booking\Models\Ticket;
 use Barryvdh\Snappy\Facades\SnappyPdf as PDF;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -13,11 +13,11 @@ class BookingInvoice extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
-    public $booking;
+    public $ticket;
 
-    public function __construct(Booking $booking)
+    public function __construct(Ticket $ticket)
     {
-        $this->booking = $booking;
+        $this->ticket = $ticket;
         $this->onQueue('mails');
     }
 
@@ -28,15 +28,15 @@ class BookingInvoice extends Mailable implements ShouldQueue
      */
     public function build()
     {
-        $PDF = PDF::loadView('documents.booking-invoice-pdf', [
-            'booking' => $this->booking->loadMissing('tickets', 'transactions')
+        $PDF = PDF::loadView('documents.ticket-invoice-pdf', [
+            'ticket' => $this->ticket->loadMissing('tickets', 'transactions')
         ]);
 
         return $this
-            ->view('mails.booking-invoice', ['booking' => $this->booking])
-            ->attachData($PDF->output(), "IraqiAirways_invoice_{$this->booking->PNR}.pdf", [
+            ->view('mails.ticket-invoice', ['ticket' => $this->ticket])
+            ->attachData($PDF->output(), "IraqiAirways_invoice_{$this->ticket->PNR}.pdf", [
                 'mime' => 'application/pdf',
             ])
-            ->subject("Iraqi Airways Invoice {$this->booking->PNR}");
+            ->subject("Iraqi Airways Invoice {$this->ticket->PNR}");
     }
 }
